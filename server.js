@@ -1,29 +1,16 @@
 require("dotenv").config();
 const mongoose = require("mongoose");
 const express = require("express");
-const jwt = require("jsonwebtoken");
 const cookieParser = require("cookie-parser");
 const { userRouter } = require("./routes/userRouters");
+const { authUser } = require("./middlewares/authentication");
 
 const app = express();
 app.use(express.json());
 app.use(cookieParser());
 
-app.get("/", (req, res) => {
-  const token = req.cookies.jwt;
-  if (token) {
-    jwt.verify(token, process.env.SECRET, (err, decodedToken) => {
-      if (err) {
-        console.log(err.message);
-        res.status(400).send("You have to login to see this page");
-      } else {
-        console.log(decodedToken);
-        res.send("Hello there !");
-      }
-    });
-  } else {
-    res.status(400).send("You have to login to see this page");
-  }
+app.get("/", authUser, (req, res) => {
+  res.send("Hello there");
 });
 
 app.use(userRouter);
