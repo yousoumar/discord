@@ -5,19 +5,11 @@
     text-decoration: none;
     display: inline-block;
 
-    &.signup {
-      background-color: crimson;
-      padding: 0.5rem;
-      border-radius: 0.5rem;
+    &.button {
       margin-left: 2rem;
-      color: white;
     }
     &.login {
-      color: crimson;
-    }
-
-    span {
-      color: crimson;
+      color: rgb(27, 27, 112);
     }
   }
 }

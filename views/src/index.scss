@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap");
 *,
 ::after,
 ::before {
@@ -11,11 +12,38 @@ body {
   font-family: sans-serif;
   max-width: 1200px;
   margin: 0 auto;
+  background: linear-gradient(
+      -45deg,
+      rgb(255, 255, 255),
+      rgba(27, 27, 112, 0.3)
+    ),
+    url("./assets/background.jpg");
+  background-size: cover;
+  background-position: center;
+  color: white;
+  font-family: "Poppins", sans-serif;
 }
 
 main {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   padding: 3rem 0;
+}
+
+h1 {
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.button {
+  background-color: rgb(27, 27, 112);
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  color: white;
+  outline: none;
+  border: none;
+  cursor: pointer;
 }
