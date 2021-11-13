@@ -1,8 +1,11 @@
+import { useState } from "react";
+import { useHistory } from "react-router-dom";
 import Form from "../../components/Form/Form";
 export default function Login() {
+  const history = useHistory();
+  const [error, setError] = useState(null);
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.dir();
     const email = e.currentTarget.email.value;
     const password = e.currentTarget.password.value;
     const res = await fetch("/api/auth/login", {
@@ -14,10 +17,17 @@ export default function Login() {
       }),
     });
     const data = await res.json();
-    console.log(data);
+    if (res.ok) {
+      console.log(data);
+      localStorage.setItem("token", data.token);
+      history.push("/");
+    } else {
+      setError(data.email ? data.email : data.password);
+    }
   };
   return (
     <main>
+      {error && <p>{error}</p>}
       <h1>Log In</h1>
 
       <Form handleSubmit={handleSubmit} />

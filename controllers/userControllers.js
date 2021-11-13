@@ -55,8 +55,8 @@ const login = async (req, res) => {
       const valid = await bcrypt.compare(password, user.password);
       if (valid) {
         const token = createToken(user._id);
-        res.cookie("jwt", token, { maxAge: maxAge * 1000 });
-        res.json(user);
+
+        res.json({ token });
       } else {
         throw Error("incorrect password");
       }

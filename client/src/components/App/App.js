@@ -5,6 +5,7 @@ import Home from "../../pages/Home/Home";
 import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
 import "./App.scss";
+import HomeRoute from "../routes/HomeRoute";
 function App() {
   return (
     <div className="app">
@@ -17,9 +18,7 @@ function App() {
           <Route path="/signup">
             <Signup />
           </Route>
-          <Route path="/">
-            <Home />
-          </Route>
+          <HomeRoute path="/" component={Home} />
         </Switch>
         <Footer />
       </Router>
