@@ -33,7 +33,7 @@ const createToken = (id) => {
   });
 };
 
-const signupPost = async (req, res) => {
+const signup = async (req, res) => {
   const { email, password } = req.body;
   try {
     const user = await User.create({ email, password });
@@ -46,16 +46,16 @@ const signupPost = async (req, res) => {
     res.status(400).json(errorDetails);
   }
 };
-const loginPost = async (req, res) => {
+const login = async (req, res) => {
   const { email, password } = req.body;
 
   try {
     const user = await User.findOne({ email });
     if (user) {
-      const auth = await bcrypt.compare(password, user.password);
-      if (auth) {
+      const valid = await bcrypt.compare(password, user.password);
+      if (valid) {
         const token = createToken(user._id);
-        res.cookie("jwt", token, { httpOnly: true, maxAge: maxAge * 1000 });
+        res.cookie("jwt", token, { maxAge: maxAge * 1000 });
         res.json(user);
       } else {
         throw Error("incorrect password");
@@ -74,4 +74,4 @@ const logout = (req, res) => {
   res.cookie("jwt", "", { maxAge: 1 });
   res.json({ message: "your are logged out" });
 };
-module.exports = { signupPost, loginPost, logout };
+module.exports = { signup, login, logout };

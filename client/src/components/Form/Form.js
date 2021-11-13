@@ -1,7 +1,7 @@
 import "./Form.scss";
-export default function Form() {
+export default function Form({ handleSubmit }) {
   return (
-    <form className="form">
+    <form className="form" onSubmit={(e) => handleSubmit(e)}>
       <div className="group">
         <label htmlFor="email">Email</label>
         <input type="email" id="email" name="email" />
