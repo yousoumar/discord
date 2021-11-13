@@ -1,4 +1,4 @@
-import React from "react";
+import { useEffect } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Login from "../../pages/Login/Login";
 import Signup from "../../pages/Signup/Signup";
@@ -7,6 +7,14 @@ import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
 import "./App.scss";
 function App() {
+  useEffect(() => {
+    const fetcher = async () => {
+      const res = await fetch("/api/auth/logout");
+      const data = await res.json();
+      console.log(data);
+    };
+    fetcher();
+  }, []);
   return (
     <div className="app">
       <Router>

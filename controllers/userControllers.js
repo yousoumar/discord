@@ -72,6 +72,6 @@ const loginPost = async (req, res) => {
 
 const logout = (req, res) => {
   res.cookie("jwt", "", { maxAge: 1 });
-  res.send("your are logged out");
+  res.json({ message: "your are logged out" });
 };
 module.exports = { signupPost, loginPost, logout };
