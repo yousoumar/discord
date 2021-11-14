@@ -1,6 +1,6 @@
-const User = require("../models/userModel");
+const User = require("../models/user");
 const jwt = require("jsonwebtoken");
-const authUser = async (req, res, next) => {
+const auth = async (req, res, next) => {
   let token = req.headers.authorization;
   if (token && token.startsWith("Bearer")) {
     token = token.split(" ")[1];
@@ -24,4 +24,4 @@ const authUser = async (req, res, next) => {
   }
 };
 
-module.exports = { authUser };
+module.exports = auth;

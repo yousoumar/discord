@@ -1,6 +1,6 @@
 import { Link, useHistory } from "react-router-dom";
 import { useContext } from "react";
-import { UserContext } from "../contexts/Auth";
+import { UserContext } from "../../contexts/Auth";
 import "./Header.scss";
 export default function Nav() {
   const { user, setUser } = useContext(UserContext);

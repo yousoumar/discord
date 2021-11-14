@@ -1,6 +1,6 @@
 import { useState, useContext } from "react";
 import { useHistory } from "react-router-dom";
-import { UserContext } from "../../components/contexts/Auth";
+import { UserContext } from "../../contexts/Auth";
 import Form from "../../components/Form/Form";
 export default function Login() {
   const history = useHistory();
@@ -22,6 +22,7 @@ export default function Login() {
     });
     const data = await res.json();
     if (res.ok) {
+      console.log(data);
       setUser(data);
       localStorage.setItem("token", data._id);
       history.push("/");

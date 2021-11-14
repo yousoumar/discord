@@ -4,7 +4,7 @@ const mongoose = require("mongoose");
 const express = require("express");
 const path = require("path");
 const cookieParser = require("cookie-parser");
-const { userRouter } = require("./routes/userRouters");
+const { authRouter } = require("./routes/auth");
 
 const app = express();
 app.use(express.static("./client/build"));
@@ -12,7 +12,7 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(morgan("dev"));
 
-app.use("/api/auth/", userRouter);
+app.use("/api/auth/", authRouter);
 
 app.get("/*", (req, res) => {
   res.sendFile(path.join(__dirname, "./client/build/index.html"));

@@ -1,4 +1,4 @@
-const User = require("../models/userModel");
+const User = require("../models/user");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
@@ -56,7 +56,7 @@ const login = async (req, res) => {
       if (valid) {
         const token = createToken(user);
 
-        res.json({ token });
+        res.json(user);
       } else {
         throw Error("incorrect password");
       }

@@ -1,7 +1,10 @@
 import { createContext, useState, useEffect } from "react";
+import { useHistory } from "react-router";
 export const UserContext = createContext();
+
 export default function Auth({ children }) {
   const [user, setUser] = useState(null);
+  const history = useHistory();
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
@@ -16,11 +19,18 @@ export default function Auth({ children }) {
         },
       };
       fetch("/api/auth/getuser", config)
-        .then((res) => res.json())
+        .then((res) => {
+          console.log(res);
+          if (res.ok) {
+            res.json();
+          } else {
+            localStorage.removeItem("token");
+            history.push("/login");
+          }
+        })
         .then((data) => setUser(data));
     }
-    return () => {};
-  }, []);
+  }, [history]);
 
   return (
     <UserContext.Provider value={{ user, setUser }}>

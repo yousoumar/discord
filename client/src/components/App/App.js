@@ -4,7 +4,7 @@ import Signup from "../../pages/Signup/Signup";
 import Home from "../../pages/Home/Home";
 import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
-import Auth from "../contexts/Auth";
+import Auth from "../../contexts/Auth";
 import "./App.scss";
 import HomeRoute from "../routes/HomeRoute";
 function App() {
