@@ -56,7 +56,7 @@ const login = async (req, res) => {
       if (valid) {
         const token = createToken(user);
 
-        res.json(user);
+        res.json({ id: user._id, token: token });
       } else {
         throw Error("incorrect password");
       }

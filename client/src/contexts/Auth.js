@@ -21,11 +21,11 @@ export default function Auth({ children }) {
       fetch("/api/auth/getuser", config)
         .then((res) => {
           console.log(res);
-          if (res.ok) {
-            res.json();
-          } else {
+          if (!res.ok) {
             localStorage.removeItem("token");
             history.push("/login");
+          } else {
+            res.json();
           }
         })
         .then((data) => setUser(data));

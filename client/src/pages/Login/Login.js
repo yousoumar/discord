@@ -20,11 +20,12 @@ export default function Login() {
         password,
       }),
     });
+
     const data = await res.json();
     if (res.ok) {
       console.log(data);
       setUser(data);
-      localStorage.setItem("token", data._id);
+      localStorage.setItem("token", data.token);
       history.push("/");
     } else {
       setError(data.email ? data.email : data.password);
