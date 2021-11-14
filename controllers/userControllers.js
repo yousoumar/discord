@@ -54,7 +54,7 @@ const login = async (req, res) => {
     if (user) {
       const valid = await bcrypt.compare(password, user.password);
       if (valid) {
-        const token = createToken(user._id);
+        const token = createToken(user);
 
         res.json({ token });
       } else {
@@ -69,9 +69,11 @@ const login = async (req, res) => {
     res.status(400).json(errorDetails);
   }
 };
-
+const getUser = (req, res) => {
+  res.json(req.user);
+};
 const logout = (req, res) => {
   res.cookie("jwt", "", { maxAge: 1 });
   res.json({ message: "your are logged out" });
 };
-module.exports = { signup, login, logout };
+module.exports = { signup, login, logout, getUser };

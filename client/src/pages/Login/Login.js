@@ -1,8 +1,12 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { useHistory } from "react-router-dom";
+import { UserContext } from "../../components/contexts/Auth";
 import Form from "../../components/Form/Form";
 export default function Login() {
   const history = useHistory();
+
+  const { setUser } = useContext(UserContext);
+
   const [error, setError] = useState(null);
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -18,8 +22,8 @@ export default function Login() {
     });
     const data = await res.json();
     if (res.ok) {
-      console.log(data);
-      localStorage.setItem("token", data.token);
+      setUser(data);
+      localStorage.setItem("token", data._id);
       history.push("/");
     } else {
       setError(data.email ? data.email : data.password);
