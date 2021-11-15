@@ -23,20 +23,17 @@ export default function Login() {
 
     const data = await res.json();
     if (res.ok) {
-      console.log(data);
       setUser(data);
       localStorage.setItem("token", data.token);
       history.push("/");
     } else {
-      setError(data.email ? data.email : data.password);
+      setError(data);
     }
   };
   return (
     <main>
-      {error && <p>{error}</p>}
       <h1>Log In</h1>
-
-      <Form handleSubmit={handleSubmit} />
+      <Form handleSubmit={handleSubmit} error={error} />
     </main>
   );
 }

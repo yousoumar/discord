@@ -1,4 +1,7 @@
 .form {
+  .group {
+    margin: 0.5rem 0;
+  }
   input,
   label {
     display: block;
@@ -15,7 +18,7 @@
   }
 
   .button {
-    margin-top: 2rem;
+    margin-top: 1rem;
     width: 100%;
   }
 }

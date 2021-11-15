@@ -34,7 +34,7 @@ main {
 
 h1 {
   font-size: 2rem;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
   text-align: center;
 }
 
@@ -46,4 +46,8 @@ h1 {
   outline: none;
   border: none;
   cursor: pointer;
+}
+
+.error {
+  color: crimson;
 }
