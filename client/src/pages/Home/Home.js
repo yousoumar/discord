@@ -17,11 +17,11 @@ export default function Home() {
     fetch("/api/auth/getuser")
       .then((res) => {
         console.log(res);
-        if (!res.ok) {
+        if (res.ok) {
+          res.json();
+        } else {
           setLoding(false);
           history.push("/login");
-        } else {
-          res.json();
         }
       })
       .then((data) => {

@@ -65,6 +65,7 @@ const login = async (req, res) => {
       if (valid) {
         const token = createToken(user);
         res.cookie("jwt", token, { httpOnly: true, maxAge: maxAge * 1000 });
+        console.log(user);
         res.json(user);
       } else {
         throw Error("incorrect password");
@@ -79,7 +80,8 @@ const login = async (req, res) => {
   }
 };
 const getUser = (req, res) => {
-  res.status(200).json(req.user);
+  console.log(req.user);
+  res.json(user);
 };
 
 const logout = (req, res) => {
