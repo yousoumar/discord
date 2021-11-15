@@ -30,7 +30,7 @@ export default function Home() {
         setUser(data);
       });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [loading]);
 
   if (loading) {
     return <p>Loading...</p>;

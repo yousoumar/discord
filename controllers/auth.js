@@ -80,8 +80,7 @@ const login = async (req, res) => {
   }
 };
 const getUser = (req, res) => {
-  console.log(req.user);
-  res.json(user);
+  res.json(req.user);
 };
 
 const logout = (req, res) => {
