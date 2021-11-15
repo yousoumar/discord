@@ -4,14 +4,14 @@ import Signup from "../../pages/Signup/Signup";
 import Home from "../../pages/Home/Home";
 import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
-import Auth from "../../contexts/Auth";
+import User from "../../contexts/User";
 import "./App.scss";
-import HomeRoute from "../routes/HomeRoute";
+
 function App() {
   return (
     <div className="app">
       <Router>
-        <Auth>
+        <User>
           <Header />
           <Switch>
             <Route path="/login">
@@ -20,10 +20,12 @@ function App() {
             <Route path="/signup">
               <Signup />
             </Route>
-            <HomeRoute path="/" component={Home} />
+            <Route exact path="/">
+              <Home />
+            </Route>
           </Switch>
           <Footer />
-        </Auth>
+        </User>
       </Router>
     </div>
   );

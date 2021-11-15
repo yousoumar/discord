@@ -1,6 +1,5 @@
 import "./Form.scss";
 export default function Form({ handleSubmit, error }) {
-  console.log(error);
   return (
     <form className="form" onSubmit={(e) => handleSubmit(e)}>
       <div className="group">

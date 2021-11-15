@@ -1,17 +1,16 @@
 const User = require("../models/user");
 const jwt = require("jsonwebtoken");
 const auth = async (req, res, next) => {
-  let token = req.headers.authorization;
-  if (token && token.startsWith("Bearer")) {
-    token = token.split(" ")[1];
+  const token = req.cookies.jwt;
+  if (token) {
     jwt.verify(token, process.env.SECRET, (err, decodedToken) => {
       if (err) {
-        console.log(err.message);
-        res.status(400).send("You have to login to see this page");
+        res.cookie("jwt", "", { maxAge: 1 });
+        res.status(400).json({ error: "Incorrect token" });
       } else {
         User.findById(decodedToken.id, function (err, user) {
           if (err) {
-            res.status(400).send("You have to login to see this page");
+            res.status(400).json({ error: "Incorrect token" });
           } else {
             req.user = user;
             next();
@@ -20,7 +19,7 @@ const auth = async (req, res, next) => {
       }
     });
   } else {
-    res.status(400).send("You have to login to see this page");
+    res.status(400).json({ error: "Incorrect token" });
   }
 };
 
