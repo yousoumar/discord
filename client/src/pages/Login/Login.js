@@ -27,6 +27,7 @@ export default function Login() {
       localStorage.setItem("token", data.token);
       history.push("/");
     } else {
+      console.log(data);
       setError(data);
     }
   };

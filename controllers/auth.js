@@ -47,7 +47,16 @@ const signup = async (req, res) => {
 };
 const login = async (req, res) => {
   const { email, password } = req.body;
-
+  if (!email) {
+    return res
+      .status(400)
+      .json({ email: "An email is requiered", password: "" });
+  }
+  if (!password) {
+    return res
+      .status(400)
+      .json({ email: "", password: "A password is requiered" });
+  }
   try {
     const user = await User.findOne({ email });
     if (user) {
