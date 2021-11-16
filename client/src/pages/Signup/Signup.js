@@ -1,5 +1,5 @@
 import Form from "../../components/Form/Form";
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { UserContext } from "../../contexts/User";
 
@@ -7,7 +7,12 @@ export default function Signup() {
   const { setUser } = useContext(UserContext);
   const [error, setError] = useState(null);
   const history = useHistory();
-
+  useEffect(() => {
+    if (localStorage.getItem("logged")) {
+      history.push("/");
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  });
   const handleSubmit = async (e) => {
     e.preventDefault();
     const email = e.currentTarget.email.value;
@@ -23,6 +28,7 @@ export default function Signup() {
     const data = await res.json();
     if (res.ok) {
       setUser(data);
+      localStorage.setItem("logged", true);
       history.push("/");
     } else {
       setError(data);

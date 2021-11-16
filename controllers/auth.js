@@ -65,7 +65,7 @@ const login = async (req, res) => {
       if (valid) {
         const token = createToken(user);
         res.cookie("jwt", token, { httpOnly: true, maxAge: maxAge * 1000 });
-        console.log(user);
+
         res.json(user);
       } else {
         throw Error("incorrect password");

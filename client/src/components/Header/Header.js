@@ -5,7 +5,7 @@ import "./Header.scss";
 export default function Nav() {
   const { user, setUser } = useContext(UserContext);
   const history = useHistory();
-  console.log(user);
+
   return (
     <header className="header">
       <Link to="/" className="logo">
@@ -19,6 +19,7 @@ export default function Nav() {
             onClick={async () => {
               await fetch("/api/auth/logout");
               history.push("/login");
+              localStorage.removeItem("logged");
               setUser(null);
             }}
           >

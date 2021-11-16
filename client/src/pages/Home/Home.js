@@ -7,7 +7,7 @@ import "./Home.scss";
 export default function Home() {
   const [loading, setLoding] = useState(true);
   const history = useHistory();
-  const { setUser, user } = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
 
   useEffect(() => {
     if (user) {
@@ -16,16 +16,15 @@ export default function Home() {
     }
     fetch("/api/auth/getuser")
       .then((res) => {
-        console.log(res);
         if (res.ok) {
-          res.json();
+          return res.json();
         } else {
           setLoding(false);
+          localStorage.removeItem("logged");
           history.push("/login");
         }
       })
       .then((data) => {
-        console.log(data);
         setLoding(false);
         setUser(data);
       });

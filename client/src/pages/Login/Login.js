@@ -1,13 +1,19 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { UserContext } from "../../contexts/User";
 import Form from "../../components/Form/Form";
 export default function Login() {
   const history = useHistory();
+  const [error, setError] = useState(null);
 
   const { setUser } = useContext(UserContext);
 
-  const [error, setError] = useState(null);
+  useEffect(() => {
+    if (localStorage.getItem("logged")) {
+      history.push("/");
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   const handleSubmit = async (e) => {
     e.preventDefault();
     const email = e.currentTarget.email.value;
@@ -23,8 +29,8 @@ export default function Login() {
 
     const data = await res.json();
     if (res.ok) {
-      console.log(data);
       setUser(data);
+      localStorage.setItem("logged", true);
       history.push("/");
     } else {
       setError(data);
