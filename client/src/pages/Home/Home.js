@@ -58,7 +58,7 @@ export default function Home() {
               <p>Name</p>
             </div>
             <div className="right">
-              <p>{user.name}</p>
+              <p>{user.name ? user.name : "No name set"}</p>
             </div>
           </div>
           <div className="row">
@@ -66,7 +66,7 @@ export default function Home() {
               <p>Bio</p>
             </div>
             <div className="right">
-              <p>{user.bio}</p>
+              <p>{user.bio ? user.bio : "No bio set"}</p>
             </div>
           </div>
           <div className="row">
@@ -74,7 +74,7 @@ export default function Home() {
               <p>Phone</p>
             </div>
             <div className="right">
-              <p>{user.phone}</p>
+              <p>{user.phone ? user.phone : "No phone set"}</p>
             </div>
           </div>
           <div className="row">
