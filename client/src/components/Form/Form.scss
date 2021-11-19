@@ -1,24 +1,12 @@
 .form {
+  padding: 0;
   .group {
-    margin: 0.5rem 0;
     border: 1px solid #bdbdbd;
-    border-radius: 8px;
-    position: relative;
   }
 
   input {
-    display: block;
-    background-color: transparent;
     border: none;
-    outline: none;
-    min-width: 20rem;
-    width: 100%;
     padding: 0.5rem 0.5rem 0.5rem 2.5rem;
-
-    &::placeholder {
-      font-size: 0.9rem;
-      color: #bdbdbd;
-    }
   }
 
   img {
@@ -27,12 +15,5 @@
     transform: translateY(-50%);
     left: 10px;
     width: 1.3rem;
-  }
-  .button {
-    background: #2f80ed;
-    margin-top: 1rem;
-    width: 100%;
-    border-radius: 8px;
-    border: none;
   }
 }

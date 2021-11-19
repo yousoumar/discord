@@ -2,10 +2,13 @@ import { useContext, useState, useEffect } from "react";
 import { useHistory, Link } from "react-router-dom";
 import { UserContext } from "../../contexts/User";
 import Header from "../../components/Header/Header";
+import ChangeInfo from "../../components/ChangeInfo/ChangeInfo";
 import "./Home.scss";
 
 export default function Home() {
   const [loading, setLoding] = useState(true);
+  const [showChangeInfo, setShowChangeInfo] = useState(false);
+
   const history = useHistory();
   const { user, setUser } = useContext(UserContext);
 
@@ -37,65 +40,72 @@ export default function Home() {
   return (
     <div className="home">
       <Header />
-      <main>
-        <h1>Personal info</h1>
-        <p>Basic info, like your name and photo</p>
+      {!showChangeInfo ? (
+        <main>
+          <h1>Personal info</h1>
+          <p>Basic info, like your name and photo</p>
 
-        <div className="info-box">
-          <div className="row">
-            <div className="left">
-              <h2>Profile</h2>
-              <p>Some info may be visible to other people</p>
+          <div className="info-box">
+            <div className="row">
+              <div className="left">
+                <h2>Profile</h2>
+              </div>
+              <div className="right">
+                <button
+                  to=""
+                  className="button"
+                  onClick={() => setShowChangeInfo(!showChangeInfo)}
+                >
+                  Edit
+                </button>
+              </div>
             </div>
-            <div className="right">
-              <Link to="" className="button">
-                Edit
-              </Link>
+            <div className="row">
+              <div className="left">
+                <p>Name</p>
+              </div>
+              <div className="right">
+                <p>{user.name ? user.name : "No name set"}</p>
+              </div>
             </div>
-          </div>
-          <div className="row">
-            <div className="left">
-              <p>Name</p>
+            <div className="row">
+              <div className="left">
+                <p>Bio</p>
+              </div>
+              <div className="right">
+                <p>{user.bio ? user.bio : "No bio set"}</p>
+              </div>
             </div>
-            <div className="right">
-              <p>{user.name ? user.name : "No name set"}</p>
+            <div className="row">
+              <div className="left">
+                <p>Phone</p>
+              </div>
+              <div className="right">
+                <p>{user.phone ? user.phone : "No phone set"}</p>
+              </div>
             </div>
-          </div>
-          <div className="row">
-            <div className="left">
-              <p>Bio</p>
+            <div className="row">
+              <div className="left">
+                <p>Email</p>
+              </div>
+              <div className="right">
+                <p>{user.email}</p>
+              </div>
             </div>
-            <div className="right">
-              <p>{user.bio ? user.bio : "No bio set"}</p>
-            </div>
-          </div>
-          <div className="row">
-            <div className="left">
-              <p>Phone</p>
-            </div>
-            <div className="right">
-              <p>{user.phone ? user.phone : "No phone set"}</p>
-            </div>
-          </div>
-          <div className="row">
-            <div className="left">
-              <p>Email</p>
-            </div>
-            <div className="right">
-              <p>{user.email}</p>
-            </div>
-          </div>
 
-          <div className="row">
-            <div className="left">
-              <p>Password</p>
-            </div>
-            <div className="right">
-              <p>************</p>
+            <div className="row">
+              <div className="left">
+                <p>Password</p>
+              </div>
+              <div className="right">
+                <p>************</p>
+              </div>
             </div>
           </div>
-        </div>
-      </main>
+        </main>
+      ) : (
+        <ChangeInfo setShowChangeInfo={setShowChangeInfo} />
+      )}
     </div>
   );
 }

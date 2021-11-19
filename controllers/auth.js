@@ -80,9 +80,24 @@ const getUser = (req, res) => {
   res.json(req.user);
 };
 
+const update = async (req, res) => {
+  const user = req.user;
+  const name = req.body.name;
+  const bio = req.body.bio;
+  const phone = req.body.phone;
+  user.name = name;
+  user.bio = bio;
+  user.phone = phone;
+  try {
+    const newUser = await user.save();
+    res.status(200).json(newUser);
+  } catch (error) {
+    console.log(error);
+  }
+};
 const logout = (req, res) => {
   res.cookie("jwt", "", { maxAge: 1 });
   res.json({ message: "your are logged out" });
 };
 
-module.exports = { signup, login, getUser, logout };
+module.exports = { signup, login, getUser, logout, update };

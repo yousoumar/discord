@@ -29,11 +29,12 @@ a {
 }
 .button {
   border: 1px solid #bdbdbd;
-  padding: 0.3rem 0.5rem;
+  padding: 0.5rem 1rem;
   border-radius: 8px;
   color: white;
   outline: none;
   cursor: pointer;
+  background-color: transparent;
 }
 
 h1 {
@@ -46,5 +47,46 @@ p {
 
   &.error {
     color: crimson;
+  }
+}
+
+form {
+  padding: 1rem;
+  .group {
+    margin: 0.5rem 0;
+    border-radius: 8px;
+    position: relative;
+  }
+
+  input,
+  textarea {
+    border: 1px solid #bdbdbd;
+    display: block;
+    background-color: transparent;
+    outline: none;
+    min-width: 20rem;
+    width: 100%;
+    padding: 0.5rem;
+    border-radius: 8px;
+
+    &::placeholder {
+      font-size: 0.9rem;
+      color: #bdbdbd;
+    }
+  }
+  textarea {
+    resize: none;
+    min-height: 5rem;
+  }
+  button {
+    background: #2f80ed;
+    margin-top: 1rem;
+    width: 100%;
+    border-radius: 8px;
+    border: none;
+    margin-bottom: 1rem;
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+    cursor: pointer;
   }
 }
