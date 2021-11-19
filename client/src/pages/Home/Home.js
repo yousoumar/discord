@@ -1,5 +1,5 @@
 import { useContext, useState, useEffect } from "react";
-import { useHistory, Link } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { UserContext } from "../../contexts/User";
 import Header from "../../components/Header/Header";
 import ChangeInfo from "../../components/ChangeInfo/ChangeInfo";
@@ -104,7 +104,9 @@ export default function Home() {
           </div>
         </main>
       ) : (
-        <ChangeInfo setShowChangeInfo={setShowChangeInfo} />
+        <main>
+          <ChangeInfo setShowChangeInfo={setShowChangeInfo} />
+        </main>
       )}
     </div>
   );

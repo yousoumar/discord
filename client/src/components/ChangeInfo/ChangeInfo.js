@@ -1,10 +1,8 @@
-import { useState, useContext, useEffect } from "react";
-import User, { UserContext } from "../../contexts/User";
-import { Link, useHistory } from "react-router-dom";
+import { useState, useContext } from "react";
+import { UserContext } from "../../contexts/User";
 
 import "./ChangeInfo.scss";
 export default function ChangeInfo({ setShowChangeInfo }) {
-  const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const { setUser, user } = useContext(UserContext);
 
@@ -28,11 +26,9 @@ export default function ChangeInfo({ setShowChangeInfo }) {
     const data = await res.json();
     if (res.ok) {
       setUser(data);
-    } else {
-      setError(data);
+      setLoading(false);
+      setShowChangeInfo(false);
     }
-    setLoading(false);
-    setShowChangeInfo(false);
   };
   return (
     <form className="change-info" onSubmit={handleSubmit}>
@@ -64,9 +60,15 @@ export default function ChangeInfo({ setShowChangeInfo }) {
         />
       </div>
       <button type="submit">{loading ? "Saving ..." : "Save"}</button>
-      <button to="" className="button" onClick={() => setShowChangeInfo(false)}>
-        Cancel
-      </button>
+      {!loading && (
+        <button
+          to=""
+          className="button"
+          onClick={() => setShowChangeInfo(false)}
+        >
+          Cancel
+        </button>
+      )}
     </form>
   );
 }
