@@ -2,8 +2,8 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Login from "../../pages/Login/Login";
 import Signup from "../../pages/Signup/Signup";
 import Home from "../../pages/Home/Home";
-import Header from "../Header/Header";
-import Footer from "../Footer/Footer";
+// import Header from "../Header/Header";
+// import Footer from "../Footer/Footer";
 import User from "../../contexts/User";
 import "./App.scss";
 
@@ -12,7 +12,7 @@ function App() {
     <div className="app">
       <Router>
         <User>
-          <Header />
+          {/* <Header /> */}
           <Switch>
             <Route path="/login">
               <Login />
@@ -24,7 +24,7 @@ function App() {
               <Home />
             </Route>
           </Switch>
-          <Footer />
+          {/* <Footer /> */}
         </User>
       </Router>
     </div>

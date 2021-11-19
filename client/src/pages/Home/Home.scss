@@ -1,2 +1,45 @@
 .home {
+  min-height: 100vh;
+  width: 100%;
+  h1 {
+    font-size: 2rem;
+  }
+
+  main {
+    margin-top: 5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+  }
+
+  .info-box {
+    width: 100%;
+    margin-top: 2rem;
+    border: 1px solid #bdbdbd;
+    border-radius: 12px;
+
+    overflow: hidden;
+    .row {
+      padding: 1rem;
+      border-top: 1px solid #bdbdbd;
+      border-bottom: 1px solid #bdbdbd;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 4rem;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .right p {
+      color: white;
+      font-weight: bold;
+      text-align: right;
+    }
+
+    .left p {
+      text-transform: uppercase;
+    }
+  }
 }

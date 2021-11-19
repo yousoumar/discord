@@ -1,7 +1,12 @@
 import { useState, useContext, useEffect } from "react";
-import { useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { UserContext } from "../../contexts/User";
+
 import Form from "../../components/Form/Form";
+import logo from "../../assets/logo.svg";
+
+import "./Login.scss";
+
 export default function Login() {
   const history = useHistory();
   const [error, setError] = useState(null);
@@ -37,9 +42,15 @@ export default function Login() {
     }
   };
   return (
-    <main>
-      <h1>Log In</h1>
-      <Form handleSubmit={handleSubmit} error={error} />
+    <main className="login">
+      <div className="logo">
+        <img src={logo} alt="" />
+      </div>
+      <h1>Login</h1>
+      <Form handleSubmit={handleSubmit} error={error} submitMessage="Login" />
+      <p>
+        Don’t have an account yet? <Link to="/signup"> Register</Link>
+      </p>
     </main>
   );
 }

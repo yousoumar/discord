@@ -1,6 +1,7 @@
 import { Link, useHistory } from "react-router-dom";
 import { useContext } from "react";
 import { UserContext } from "../../contexts/User";
+import logo from "../../assets/logo.svg";
 import "./Header.scss";
 export default function Nav() {
   const { user, setUser } = useContext(UserContext);
@@ -9,7 +10,7 @@ export default function Nav() {
   return (
     <header className="header">
       <Link to="/" className="logo">
-        AuthApp
+        <img src={logo} alt="" />
       </Link>
       <div className="div">
         {user ? (

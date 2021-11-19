@@ -1,8 +1,9 @@
 import Form from "../../components/Form/Form";
 import { useState, useContext, useEffect } from "react";
-import { useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { UserContext } from "../../contexts/User";
-
+import logo from "../../assets/logo.svg";
+import "./Signup.scss";
 export default function Signup() {
   const { setUser } = useContext(UserContext);
   const [error, setError] = useState(null);
@@ -35,9 +36,27 @@ export default function Signup() {
     }
   };
   return (
-    <main>
-      <h1>Signup page</h1>
-      <Form handleSubmit={handleSubmit} error={error} />
+    <main className="singup">
+      <div className="logo">
+        <img src={logo} alt="" />
+      </div>
+      <h1>
+        Join thousands of learners <br />
+        from around the world{" "}
+      </h1>
+      <p>
+        Master web development by making real-life <br /> projects. There are
+        multiple paths for you to <br />
+        choose
+      </p>
+      <Form
+        handleSubmit={handleSubmit}
+        error={error}
+        submitMessage="Start coding"
+      />
+      <p>
+        Adready a member? <Link to="/login"> Login</Link>
+      </p>
     </main>
   );
 }

@@ -1,25 +1,38 @@
 .form {
   .group {
     margin: 0.5rem 0;
-  }
-  input,
-  label {
-    display: block;
+    border: 1px solid #bdbdbd;
+    border-radius: 8px;
+    position: relative;
   }
 
   input {
+    display: block;
     background-color: transparent;
     border: none;
     outline: none;
-    border: 2px solid rgb(27, 27, 112);
-    border-radius: 0.5rem;
     min-width: 20rem;
     width: 100%;
-    padding: 0.5rem;
+    padding: 0.5rem 0.5rem 0.5rem 2.5rem;
+
+    &::placeholder {
+      font-size: 0.9rem;
+      color: #bdbdbd;
+    }
   }
 
+  img {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 10px;
+    width: 1.3rem;
+  }
   .button {
+    background: #2f80ed;
     margin-top: 1rem;
     width: 100%;
+    border-radius: 8px;
+    border: none;
   }
 }

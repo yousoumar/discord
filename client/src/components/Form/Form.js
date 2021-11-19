@@ -1,19 +1,31 @@
 import "./Form.scss";
-export default function Form({ handleSubmit, error }) {
+import email from "./email.svg";
+import password from "./password.svg";
+export default function Form({
+  handleSubmit,
+  error,
+  submitMessage = "Submit",
+}) {
   return (
     <form className="form" onSubmit={(e) => handleSubmit(e)}>
+      {error && error.email && <p className="error">{error.email}</p>}
       <div className="group">
-        <label htmlFor="email">Email</label>
-        <input type="email" id="email" name="email" />
-        {error && error.email && <p className="error">{error.email}</p>}
+        <input type="email" id="email" name="email" placeholder="Email" />
+        <img src={email} alt="" />
       </div>
+      {error && error.password && <p className="error">{error.password}</p>}
       <div className="group">
-        <label htmlFor="password">Password</label>
-        <input type="password" name="password" id="password" />
-        {error && error.password && <p className="error">{error.password}</p>}
+        <input
+          type="password"
+          name="password"
+          id="password"
+          placeholder="password"
+        />
+        <img src={password} alt="" />
       </div>
+
       <button type="submit" className="button">
-        Submit
+        {submitMessage}
       </button>
     </form>
   );
