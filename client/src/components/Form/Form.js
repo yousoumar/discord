@@ -5,6 +5,7 @@ export default function Form({
   handleSubmit,
   error,
   submitMessage = "Submit",
+  loading,
 }) {
   return (
     <form className="form" onSubmit={(e) => handleSubmit(e)}>
@@ -24,8 +25,8 @@ export default function Form({
         <img src={password} alt="" />
       </div>
 
-      <button type="submit" className="button">
-        {submitMessage}
+      <button type="submit" className="button primary">
+        {loading ? "..." : submitMessage}
       </button>
     </form>
   );

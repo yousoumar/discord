@@ -8,10 +8,10 @@ import logo from "../../assets/logo.svg";
 import "./Login.scss";
 
 export default function Login() {
-  const history = useHistory();
   const [error, setError] = useState(null);
-
+  const [loading, setLoading] = useState(false);
   const { setUser } = useContext(UserContext);
+  const history = useHistory();
 
   useEffect(() => {
     if (localStorage.getItem("logged")) {
@@ -21,6 +21,7 @@ export default function Login() {
   }, []);
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     const email = e.currentTarget.email.value;
     const password = e.currentTarget.password.value;
     const res = await fetch("/api/auth/login", {
@@ -36,10 +37,13 @@ export default function Login() {
     if (res.ok) {
       setUser(data);
       localStorage.setItem("logged", true);
+      setLoading(false);
       history.push("/");
     } else {
+      setLoading(false);
       setError(data);
     }
+    setLoading(false);
   };
   return (
     <main className="login">
@@ -47,7 +51,12 @@ export default function Login() {
         <img src={logo} alt="" />
       </div>
       <h1>Login</h1>
-      <Form handleSubmit={handleSubmit} error={error} submitMessage="Login" />
+      <Form
+        handleSubmit={handleSubmit}
+        error={error}
+        submitMessage="Login"
+        loading={loading}
+      />
       <p>
         Don’t have an account yet? <Link to="/signup"> Register</Link>
       </p>

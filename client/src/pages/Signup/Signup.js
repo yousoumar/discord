@@ -5,8 +5,9 @@ import { UserContext } from "../../contexts/User";
 import logo from "../../assets/logo.svg";
 import "./Signup.scss";
 export default function Signup() {
-  const { setUser } = useContext(UserContext);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const { setUser } = useContext(UserContext);
   const history = useHistory();
   useEffect(() => {
     if (localStorage.getItem("logged")) {
@@ -16,6 +17,7 @@ export default function Signup() {
   });
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     const email = e.currentTarget.email.value;
     const password = e.currentTarget.password.value;
     const res = await fetch("/api/auth/signup", {
@@ -30,8 +32,10 @@ export default function Signup() {
     if (res.ok) {
       setUser(data);
       localStorage.setItem("logged", true);
+      setLoading(false);
       history.push("/");
     } else {
+      setLoading(false);
       setError(data);
     }
   };
@@ -53,6 +57,7 @@ export default function Signup() {
         handleSubmit={handleSubmit}
         error={error}
         submitMessage="Start coding"
+        loading={loading}
       />
       <p>
         Adready a member? <Link to="/login"> Login</Link>

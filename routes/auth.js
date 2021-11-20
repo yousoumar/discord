@@ -5,14 +5,16 @@ const {
   login,
   getUser,
   logout,
-  update,
+  updateProfile,
+  updatePassword,
 } = require("../controllers/auth.js");
 
 const authRouter = express.Router();
 authRouter.post("/signup", signup);
 authRouter.post("/login", login);
 authRouter.get("/getuser", auth, getUser);
-authRouter.post("/update", auth, update);
+authRouter.post("/updateProfile", auth, updateProfile);
+authRouter.post("/updatePassword", auth, updatePassword);
 authRouter.get("/logout", logout);
 
 module.exports = { authRouter };

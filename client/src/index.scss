@@ -35,6 +35,15 @@ a {
   outline: none;
   cursor: pointer;
   background-color: transparent;
+
+  &.primary {
+    background: #2f80ed;
+    border-color: #2f80ed;
+  }
+  &.danger {
+    background-color: rgb(121, 11, 33);
+    border-color: rgb(121, 11, 33);
+  }
 }
 
 h1 {
@@ -79,14 +88,7 @@ form {
     min-height: 5rem;
   }
   button {
-    background: #2f80ed;
-    margin-top: 1rem;
+    margin: 1rem 0;
     width: 100%;
-    border-radius: 8px;
-    border: none;
-    margin-bottom: 1rem;
-    padding: 0.5rem 1rem;
-    font-size: 0.9rem;
-    cursor: pointer;
   }
 }

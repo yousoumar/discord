@@ -23,6 +23,10 @@ const handleErrors = (err) => {
     errors.password = "That password is incorrect";
   }
 
+  if (err.message === "incorrect current password") {
+    errors.password = "Incorrect current password";
+  }
+
   return errors;
 };
 
@@ -80,7 +84,7 @@ const getUser = (req, res) => {
   res.json(req.user);
 };
 
-const update = async (req, res) => {
+const updateProfile = async (req, res) => {
   const user = req.user;
   const name = req.body.name;
   const bio = req.body.bio;
@@ -95,9 +99,37 @@ const update = async (req, res) => {
     console.log(error);
   }
 };
+
+const updatePassword = async (req, res) => {
+  const user = req.user;
+  const currentPassword = req.body.currentPassword;
+  const newPassword = req.body.newPassword;
+  console.log(newPassword, currentPassword);
+  try {
+    const valid = await bcrypt.compare(currentPassword, user.password);
+    if (valid) {
+      user.password = newPassword;
+      await user.save();
+      res.json(user);
+    } else {
+      throw Error("incorrect current password");
+    }
+  } catch (error) {
+    console.log(error);
+    errorDetails = handleErrors(error);
+    res.status(400).json(errorDetails);
+  }
+};
 const logout = (req, res) => {
   res.cookie("jwt", "", { maxAge: 1 });
   res.json({ message: "your are logged out" });
 };
 
-module.exports = { signup, login, getUser, logout, update };
+module.exports = {
+  signup,
+  login,
+  getUser,
+  logout,
+  updateProfile,
+  updatePassword,
+};
