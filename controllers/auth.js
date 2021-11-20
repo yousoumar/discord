@@ -4,6 +4,9 @@ const crypto = require("crypto");
 const sendEmail = require("../utils/sendEmail");
 const handleErrors = require("../utils/handleErrors");
 const createToken = require("../utils/createToken");
+
+/* ---------------------------- signup ---------------------------------- */
+
 const signup = async (req, res) => {
   const { email, password } = req.body;
   try {
@@ -20,6 +23,9 @@ const signup = async (req, res) => {
     res.status(400).json(errorDetails);
   }
 };
+
+/* ---------------------------- login ---------------------------------- */
+
 const login = async (req, res) => {
   const { email, password } = req.body;
   if (!email || !password) {
@@ -57,6 +63,8 @@ const getUser = (req, res) => {
   res.json(req.user);
 };
 
+/* ---------------------------- updateProfile ---------------------------------- */
+
 const updateProfile = async (req, res) => {
   const user = req.user;
   const name = req.body.name;
@@ -74,6 +82,8 @@ const updateProfile = async (req, res) => {
     res.status(400).json(errorDetails);
   }
 };
+
+/* ---------------------------- deleteProfile ---------------------------------- */
 
 const deleteProfile = async (req, res) => {
   const user = req.user;
@@ -93,6 +103,9 @@ const deleteProfile = async (req, res) => {
     res.status(400).json(errorDetails);
   }
 };
+
+/* ---------------------------- updatePassword ---------------------------------- */
+
 const updatePassword = async (req, res) => {
   const user = req.user;
   const currentPassword = req.body.currentPassword;
@@ -113,6 +126,9 @@ const updatePassword = async (req, res) => {
     res.status(400).json(errorDetails);
   }
 };
+
+/* ---------------------------- forgotPassword ---------------------------------- */
+
 const forgotPassword = async (req, res) => {
   try {
     const user = await User.findOne({ email: req.body.email });
@@ -148,6 +164,8 @@ const forgotPassword = async (req, res) => {
   }
 };
 
+/* ---------------------------- resetPassword ---------------------------------- */
+
 const resetPassword = async (req, res, next) => {
   try {
     const user = await User.findOne({
@@ -172,6 +190,8 @@ const resetPassword = async (req, res, next) => {
     res.status(400).json(errorDetails);
   }
 };
+
+/* ---------------------------- logout ---------------------------------- */
 
 const logout = (req, res) => {
   res.cookie("jwt", "", { maxAge: 1 });
