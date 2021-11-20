@@ -60,6 +60,9 @@ export default function Login() {
       <p>
         Don’t have an account yet? <Link to="/signup"> Register</Link>
       </p>
+      <p style={{ marginTop: "1rem" }}>
+        Forgot your password ? <Link to="/resetPassword">Reset</Link>
+      </p>
     </main>
   );
 }

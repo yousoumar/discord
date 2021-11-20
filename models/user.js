@@ -25,6 +25,12 @@ const schema = mongoose.Schema(
     phone: {
       type: String,
     },
+    resetPasswordToken: {
+      type: String,
+    },
+    resetPasswordTokenExpire: {
+      type: Date,
+    },
   },
   { timestamps: true }
 );

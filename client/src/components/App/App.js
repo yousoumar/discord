@@ -6,6 +6,7 @@ import Home from "../../pages/Home/Home";
 // import Footer from "../Footer/Footer";
 import User from "../../contexts/User";
 import "./App.scss";
+import ResetPassword from "../../pages/ResetPassword/ResetPassword";
 
 function App() {
   return (
@@ -19,6 +20,9 @@ function App() {
             </Route>
             <Route path="/signup">
               <Signup />
+            </Route>
+            <Route exact path="/resetPassword">
+              <ResetPassword />
             </Route>
             <Route exact path="/">
               <Home />

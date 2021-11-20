@@ -1,52 +1,22 @@
 const User = require("../models/user");
 const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
-
-const handleErrors = (err) => {
-  let errors = { email: "", password: "" };
-
-  if (err.code === 11000) {
-    errors.email = "that email is already registered";
-  }
-
-  if (err.message.includes("user validation failed")) {
-    Object.values(err.errors).forEach(({ properties }) => {
-      errors[properties.path] = properties.message;
-    });
-  }
-
-  if (err.message === "incorrect email") {
-    errors.email = "That email is not registered";
-  }
-
-  if (err.message === "incorrect password") {
-    errors.password = "That password is incorrect";
-  }
-
-  if (err.message === "incorrect current password") {
-    errors.password = "Incorrect current password";
-  }
-
-  return errors;
-};
-
-const maxAge = 24 * 60 * 60 * 3;
-const createToken = (id) => {
-  return jwt.sign({ id }, process.env.SECRET, {
-    expiresIn: maxAge,
-  });
-};
-
+const crypto = require("crypto");
+const sendEmail = require("../utils/sendEmail");
+const handleErrors = require("../utils/handleErrors");
+const createToken = require("../utils/createToken");
 const signup = async (req, res) => {
   const { email, password } = req.body;
   try {
     const user = await User.create({ email, password });
     const token = createToken(user._id);
-    res.cookie("jwt", token, { httpOnly: true, maxAge: maxAge * 1000 });
+    res.cookie("jwt", token, {
+      httpOnly: true,
+      maxAge: 24 * 60 * 60 * 3 * 1000,
+    });
     res.json(user);
   } catch (error) {
     console.log(error);
-    errorDetails = handleErrors(error);
+    const errorDetails = handleErrors(error);
     res.status(400).json(errorDetails);
   }
 };
@@ -65,7 +35,10 @@ const login = async (req, res) => {
       const valid = await bcrypt.compare(password, user.password);
       if (valid) {
         const token = createToken(user);
-        res.cookie("jwt", token, { httpOnly: true, maxAge: maxAge * 1000 });
+        res.cookie("jwt", token, {
+          httpOnly: true,
+          maxAge: 24 * 60 * 60 * 3 * 1000,
+        });
 
         res.json(user);
       } else {
@@ -76,7 +49,7 @@ const login = async (req, res) => {
     }
   } catch (error) {
     console.log(error);
-    errorDetails = handleErrors(error);
+    const errorDetails = handleErrors(error);
     res.status(400).json(errorDetails);
   }
 };
@@ -97,6 +70,8 @@ const updateProfile = async (req, res) => {
     res.status(200).json(newUser);
   } catch (error) {
     console.log(error);
+    const errorDetails = handleErrors(error);
+    res.status(400).json(errorDetails);
   }
 };
 
@@ -114,7 +89,7 @@ const deleteProfile = async (req, res) => {
     }
   } catch (error) {
     console.log(error);
-    errorDetails = handleErrors(error);
+    const errorDetails = handleErrors(error);
     res.status(400).json(errorDetails);
   }
 };
@@ -134,10 +109,70 @@ const updatePassword = async (req, res) => {
     }
   } catch (error) {
     console.log(error);
-    errorDetails = handleErrors(error);
+    const errorDetails = handleErrors(error);
     res.status(400).json(errorDetails);
   }
 };
+const forgotPassword = async (req, res) => {
+  try {
+    const user = await User.findOne({ email: req.body.email });
+    if (!user) {
+      throw Error("incorrect email");
+    }
+    const resetPasswordToken = crypto.randomBytes(20).toString("hex");
+    user.resetPasswordToken = resetPasswordToken;
+    user.resetPasswordTokenExpire = Date.now() + 10 * (60 * 1000);
+    await user.save();
+    const message = `
+      <h1>You have requested a password reset</h1>
+      <p>Here is your token : </p>
+      <p>${resetPasswordToken}</p>
+    `;
+    try {
+      await sendEmail({
+        to: user.email,
+        subject: "Password reset request",
+        text: message,
+      });
+
+      res.status(200).json({ message: "Email sent" });
+    } catch (err) {
+      user.resetPasswordToken = undefined;
+      user.resetPasswordTokenExpire = undefined;
+      res.status(500).json({ message: "Email could not be sent" });
+    }
+  } catch (error) {
+    console.log(error);
+    const errorDetails = handleErrors(error);
+    res.status(400).json(errorDetails);
+  }
+};
+
+const resetPassword = async (req, res, next) => {
+  try {
+    const user = await User.findOne({
+      resetPasswordToken: req.body.resetPasswordToken,
+      resetPasswordTokenExpire: { $gt: Date.now() },
+    });
+
+    if (!user) {
+      throw Error("Invalid token");
+    }
+
+    user.password = req.body.password;
+    user.resetPasswordToken = undefined;
+    user.resetPasswordExpire = undefined;
+
+    await user.save();
+
+    res.status(200).json({ message: "Password reset succed" });
+  } catch (err) {
+    console.log(err);
+    const errorDetails = handleErrors(err);
+    res.status(400).json(errorDetails);
+  }
+};
+
 const logout = (req, res) => {
   res.cookie("jwt", "", { maxAge: 1 });
   res.json({ message: "your are logged out" });
@@ -151,4 +186,6 @@ module.exports = {
   updateProfile,
   updatePassword,
   deleteProfile,
+  forgotPassword,
+  resetPassword,
 };
