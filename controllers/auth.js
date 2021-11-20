@@ -59,6 +59,9 @@ const login = async (req, res) => {
     res.status(400).json(errorDetails);
   }
 };
+
+/* ---------------------------- getUser ---------------------------------- */
+
 const getUser = (req, res) => {
   res.json(req.user);
 };
@@ -67,12 +70,9 @@ const getUser = (req, res) => {
 
 const updateProfile = async (req, res) => {
   const user = req.user;
-  const name = req.body.name;
-  const bio = req.body.bio;
-  const phone = req.body.phone;
-  user.name = name;
-  user.bio = bio;
-  user.phone = phone;
+  user.name = req.body.name;
+  user.bio = req.body.bio;
+  user.phone = req.body.phone;
   try {
     const newUser = await user.save();
     res.status(200).json(newUser);
@@ -110,7 +110,7 @@ const updatePassword = async (req, res) => {
   const user = req.user;
   const currentPassword = req.body.currentPassword;
   const newPassword = req.body.newPassword;
-  console.log(newPassword, currentPassword);
+
   try {
     const valid = await bcrypt.compare(currentPassword, user.password);
     if (valid) {
