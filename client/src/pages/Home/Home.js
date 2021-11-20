@@ -7,13 +7,12 @@ import Password from "./components/Password";
 import Header from "../../components/Header/Header";
 
 import "./Home.scss";
+import DeleteProfile from "./components/DeleteProfile";
 
 export default function Home() {
   const [loading, setLoding] = useState(true);
-  const [showChangeInfo, setShowUpdateProfile] = useState(false);
-
-  const history = useHistory();
   const { user, setUser } = useContext(UserContext);
+  const history = useHistory();
 
   useEffect(() => {
     if (user) {
@@ -47,30 +46,7 @@ export default function Home() {
       <main>
         <Profile user={user} setUser={setUser} />
         <Password user={user} setUser={setUser} />
-        <div className="info-box">
-          <div className="row">
-            <div className="left">
-              <h2>Account</h2>
-            </div>
-            <div className="right">
-              <button
-                to=""
-                className="button danger"
-                onClick={() => setShowUpdateProfile(!showChangeInfo)}
-              >
-                Delete
-              </button>
-            </div>
-          </div>
-          <div className="row">
-            <div className="left">
-              <p>Email</p>
-            </div>
-            <div className="right">
-              <p>{user.email}</p>
-            </div>
-          </div>
-        </div>
+        <DeleteProfile user={user} setUser={setUser} history={history} />
       </main>
     </div>
   );

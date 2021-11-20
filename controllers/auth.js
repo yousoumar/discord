@@ -100,6 +100,24 @@ const updateProfile = async (req, res) => {
   }
 };
 
+const deleteProfile = async (req, res) => {
+  const user = req.user;
+  const password = req.body.password;
+  try {
+    const valid = await bcrypt.compare(password, user.password);
+    if (valid) {
+      await User.findByIdAndRemove(user._id);
+      res.cookie("jwt", "", { maxAge: 1 });
+      res.json({ message: "Account deleted" });
+    } else {
+      throw Error("incorrect password");
+    }
+  } catch (error) {
+    console.log(error);
+    errorDetails = handleErrors(error);
+    res.status(400).json(errorDetails);
+  }
+};
 const updatePassword = async (req, res) => {
   const user = req.user;
   const currentPassword = req.body.currentPassword;
@@ -132,4 +150,5 @@ module.exports = {
   logout,
   updateProfile,
   updatePassword,
+  deleteProfile,
 };
