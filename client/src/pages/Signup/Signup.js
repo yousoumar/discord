@@ -60,7 +60,7 @@ export default function Signup() {
         loading={loading}
       />
       <p>
-        Adready a member? <Link to="/login"> Login</Link>
+        Adready a member ? <Link to="/login"> Login</Link>
       </p>
     </main>
   );
