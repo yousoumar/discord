@@ -6,10 +6,9 @@ export default function Profile({ user, setUser }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    const name = e.currentTarget.name.value;
-    const bio = e.currentTarget.bio.value;
-    const phone = e.currentTarget.phone.value;
-    console.log(name, bio, phone);
+    const name = e.currentTarget.name.value.trim();
+    const bio = e.currentTarget.bio.value.trim();
+    const phone = e.currentTarget.phone.value.trim();
     const res = await fetch("/api/auth/updateProfile", {
       method: "POST",
       headers: { "Content-Type": "application/json" },

@@ -8,7 +8,7 @@ export default function ResetPassword() {
   const history = useHistory();
   const sendEmail = async (e) => {
     e.preventDefault();
-    const email = e.currentTarget.email.value;
+    const email = e.currentTarget.email.value.trim();
     if (!email) return;
     setLoading(true);
     try {
@@ -32,8 +32,8 @@ export default function ResetPassword() {
   };
   const resetPassword = async (e) => {
     e.preventDefault();
-    const resetPasswordToken = e.currentTarget.resetPasswordToken.value;
-    const password = e.currentTarget.password.value;
+    const resetPasswordToken = e.currentTarget.resetPasswordToken.value.trim();
+    const password = e.currentTarget.password.value.trim();
     if (!resetPasswordToken || !password) return;
     setLoading(true);
     try {

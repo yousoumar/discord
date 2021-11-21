@@ -8,8 +8,8 @@ export default function Password({ setUser, user }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    const currentPassword = e.currentTarget.currentPassword.value;
-    const newPassword = e.currentTarget.newPassword.value;
+    const currentPassword = e.currentTarget.currentPassword.value.trim();
+    const newPassword = e.currentTarget.newPassword.value.trim();
 
     const res = await fetch("/api/auth/updatePassword", {
       method: "POST",

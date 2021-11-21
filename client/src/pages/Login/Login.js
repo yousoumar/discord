@@ -22,8 +22,8 @@ export default function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    const email = e.currentTarget.email.value;
-    const password = e.currentTarget.password.value;
+    const email = e.currentTarget.email.value.trim();
+    const password = e.currentTarget.password.value.trim();
     const res = await fetch("/api/auth/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },

@@ -7,9 +7,9 @@ export default function DeleteProfile({ setUser, user, history }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const password = e.currentTarget.password.value.trim();
+    if (!password) return;
     setLoading(true);
-    const password = e.currentTarget.password.value;
-
     const res = await fetch("/api/auth/deleteProfile", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
