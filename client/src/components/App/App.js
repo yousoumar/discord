@@ -2,8 +2,6 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Login from "../../pages/Login/Login";
 import Signup from "../../pages/Signup/Signup";
 import Home from "../../pages/Home/Home";
-// import Header from "../Header/Header";
-// import Footer from "../Footer/Footer";
 import User from "../../contexts/User";
 import "./App.scss";
 import ResetPassword from "../../pages/ResetPassword/ResetPassword";
@@ -21,13 +19,13 @@ function App() {
             <Route path="/signup">
               <Signup />
             </Route>
-            <Route exact path="/resetPassword">
+            <Route path="/resetPassword">
               <ResetPassword />
             </Route>
             <Route exact path="/">
               <Home />
             </Route>
-            <Route exact path="/*">
+            <Route path="/*">
               <NotFound />
             </Route>
           </Switch>

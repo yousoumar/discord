@@ -12,14 +12,16 @@ const signup = async (req, res) => {
   try {
     const user = await User.create({ email, password });
     const token = createToken(user._id);
-    res.cookie("jwt", token, {
+    res.cookie("token", token, {
       httpOnly: true,
       maxAge: 24 * 60 * 60 * 3 * 1000,
     });
+
     const message = `
       <h1>Your account has been created successfully</h1>
-      <p>We are delighted to have one more member at DevChallenge.</p>
+      <p>We are delighted to have one more member.</p>
     `;
+
     try {
       await sendEmail({
         to: user.email,
@@ -27,9 +29,9 @@ const signup = async (req, res) => {
         text: message,
       });
     } catch (err) {
-      // do staff hier later
       console.log(error);
     }
+
     res.json(user);
   } catch (error) {
     console.log(error);
@@ -55,7 +57,7 @@ const login = async (req, res) => {
       const valid = await bcrypt.compare(password, user.password);
       if (valid) {
         const token = createToken(user);
-        res.cookie("jwt", token, {
+        res.cookie("token", token, {
           httpOnly: true,
           maxAge: 24 * 60 * 60 * 3 * 1000,
         });
@@ -106,7 +108,7 @@ const deleteProfile = async (req, res) => {
     const valid = await bcrypt.compare(password, user.password);
     if (valid) {
       await User.findByIdAndRemove(user._id);
-      res.cookie("jwt", "", { maxAge: 1 });
+      res.cookie("token", "", { maxAge: 1 });
       const message = `
       <h1>Your account has been deleted successfully</h1>
       <p>We are sorry to see you leave us.</p>
@@ -118,7 +120,6 @@ const deleteProfile = async (req, res) => {
           text: message,
         });
       } catch (err) {
-        // do staff hier later
         console.log(error);
       }
       res.json({ message: "Account deleted" });
@@ -163,20 +164,24 @@ const forgotPassword = async (req, res) => {
     if (!user) {
       throw Error("incorrect email");
     }
-    // crete a token
+
     const resetPasswordToken = crypto.randomBytes(20).toString("hex");
-    // hash it and save it in the data base
+
     user.resetPasswordToken = crypto
       .createHash("sha256", process.env.SECRET)
       .update(resetPasswordToken)
       .digest("hex");
+
     user.resetPasswordTokenExpire = Date.now() + 10 * (60 * 1000);
+
     await user.save();
+
     const message = `
       <h1>You have requested a password reset</h1>
       <p>Here is your token : </p>
       <p>${resetPasswordToken}</p>
     `;
+
     try {
       await sendEmail({
         to: user.email,
@@ -204,6 +209,7 @@ const resetPassword = async (req, res, next) => {
     .createHash("sha256", process.env.SECRET)
     .update(req.body.resetPasswordToken)
     .digest("hex");
+
   try {
     const user = await User.findOne({
       resetPasswordToken: resetPasswordToken,
@@ -231,7 +237,7 @@ const resetPassword = async (req, res, next) => {
 /* ---------------------------- logout ---------------------------------- */
 
 const logout = (req, res) => {
-  res.cookie("jwt", "", { maxAge: 1 });
+  res.cookie("token", "", { maxAge: 1 });
   res.json({ message: "your are logged out" });
 };
 

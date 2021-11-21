@@ -1,6 +1,6 @@
 # Authentication
 
-To get myself familiar with authentication and handling user data, I took this challenge from `devchallenge.io`. I coded it with `SASS`, `React`, `Express`, `NodeJs`, `Mongoose`, and `MongoDB`. And I learned a lot.
+To get myself familiar with authentication and handling user data, I took this challenge from `devchallenge.io`. I coded it with `React`, `Sass`, `Express`, `NodeJs`, `Mongoose`, and `MongoDB`. And I learned a lot.
 
 # Features
 
