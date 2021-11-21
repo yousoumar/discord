@@ -16,6 +16,20 @@ const signup = async (req, res) => {
       httpOnly: true,
       maxAge: 24 * 60 * 60 * 3 * 1000,
     });
+    const message = `
+      <h1>Your account has been created successfully</h1>
+      <p>We are delighted to have one more member at DevChallenge.</p>
+    `;
+    try {
+      await sendEmail({
+        to: user.email,
+        subject: "Account created successfully",
+        text: message,
+      });
+    } catch (err) {
+      // do staff hier later
+      console.log(error);
+    }
     res.json(user);
   } catch (error) {
     console.log(error);
@@ -93,6 +107,20 @@ const deleteProfile = async (req, res) => {
     if (valid) {
       await User.findByIdAndRemove(user._id);
       res.cookie("jwt", "", { maxAge: 1 });
+      const message = `
+      <h1>Your account has been deleted successfully</h1>
+      <p>We are sorry to see you leave us.</p>
+    `;
+      try {
+        await sendEmail({
+          to: user.email,
+          subject: "Account deleted successfully",
+          text: message,
+        });
+      } catch (err) {
+        // do staff hier later
+        console.log(error);
+      }
       res.json({ message: "Account deleted" });
     } else {
       throw Error("incorrect password");
