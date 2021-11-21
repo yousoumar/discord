@@ -7,13 +7,13 @@ import Home from "../../pages/Home/Home";
 import User from "../../contexts/User";
 import "./App.scss";
 import ResetPassword from "../../pages/ResetPassword/ResetPassword";
+import NotFound from "../../pages/NotFound/NotFound";
 
 function App() {
   return (
     <div className="app">
       <Router>
         <User>
-          {/* <Header /> */}
           <Switch>
             <Route path="/login">
               <Login />
@@ -27,8 +27,10 @@ function App() {
             <Route exact path="/">
               <Home />
             </Route>
+            <Route exact path="/*">
+              <NotFound />
+            </Route>
           </Switch>
-          {/* <Footer /> */}
         </User>
       </Router>
     </div>
