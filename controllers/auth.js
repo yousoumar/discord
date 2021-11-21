@@ -163,8 +163,13 @@ const forgotPassword = async (req, res) => {
     if (!user) {
       throw Error("incorrect email");
     }
+    // crete a token
     const resetPasswordToken = crypto.randomBytes(20).toString("hex");
-    user.resetPasswordToken = resetPasswordToken;
+    // hash it and save it in the data base
+    user.resetPasswordToken = crypto
+      .createHash("sha256", process.env.SECRET)
+      .update(resetPasswordToken)
+      .digest("hex");
     user.resetPasswordTokenExpire = Date.now() + 10 * (60 * 1000);
     await user.save();
     const message = `
@@ -195,9 +200,13 @@ const forgotPassword = async (req, res) => {
 /* ---------------------------- resetPassword ---------------------------------- */
 
 const resetPassword = async (req, res, next) => {
+  const resetPasswordToken = crypto
+    .createHash("sha256", process.env.SECRET)
+    .update(req.body.resetPasswordToken)
+    .digest("hex");
   try {
     const user = await User.findOne({
-      resetPasswordToken: req.body.resetPasswordToken,
+      resetPasswordToken: resetPasswordToken,
       resetPasswordTokenExpire: { $gt: Date.now() },
     });
 
@@ -207,7 +216,7 @@ const resetPassword = async (req, res, next) => {
 
     user.password = req.body.password;
     user.resetPasswordToken = undefined;
-    user.resetPasswordExpire = undefined;
+    user.resetPasswordTokenExpire = undefined;
 
     await user.save();
 
