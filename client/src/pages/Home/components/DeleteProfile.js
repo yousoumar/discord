@@ -41,7 +41,7 @@ export default function DeleteProfile({ setUser, user, history }) {
             />
           </div>
 
-          <p className="error">{error.password}</p>
+          <p className="error">{error && error.password}</p>
           <button type="submit" className="button danger">
             {loading ? "Deleting ..." : "Delete"}
           </button>
@@ -49,7 +49,10 @@ export default function DeleteProfile({ setUser, user, history }) {
             <button
               to=""
               className="button "
-              onClick={() => setShowForm(false)}
+              onClick={() => {
+                setShowForm(false);
+                setError(null);
+              }}
               style={{ marginLeft: "1rem" }}
             >
               Cancel

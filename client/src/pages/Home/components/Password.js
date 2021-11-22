@@ -51,7 +51,7 @@ export default function Password({ setUser, user }) {
               name="newPassword"
             />
           </div>
-          <p className="error">{error.password}</p>
+          <p className="error">{error && error.password}</p>
           <button type="submit" className="button primary">
             {loading ? "Saving ..." : "Save"}
           </button>
@@ -59,7 +59,10 @@ export default function Password({ setUser, user }) {
             <button
               to=""
               className="button "
-              onClick={() => setShowForm(false)}
+              onClick={() => {
+                setShowForm(false);
+                setError(null);
+              }}
               style={{ marginLeft: "1rem" }}
             >
               Cancel
