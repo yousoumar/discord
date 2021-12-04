@@ -19,7 +19,7 @@ export default function Home() {
       setLoding(false);
       return;
     }
-    fetch("/api/auth/getuser")
+    fetch("/api/user/getuser")
       .then((res) => {
         if (res.ok) {
           return res.json();

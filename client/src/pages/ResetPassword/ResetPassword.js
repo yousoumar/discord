@@ -12,7 +12,7 @@ export default function ResetPassword() {
     if (!email) return;
     setLoading(true);
     try {
-      const res = await fetch("/api/auth/forgotPassword", {
+      const res = await fetch("/api/user/forgotPassword", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -28,6 +28,7 @@ export default function ResetPassword() {
       setLoading(false);
     } catch (error) {
       setError("Something went rong, please try later");
+      setLoading(false);
     }
   };
   const resetPassword = async (e) => {
@@ -37,7 +38,7 @@ export default function ResetPassword() {
     if (!resetPasswordToken || !password) return;
     setLoading(true);
     try {
-      const res = await fetch("/api/auth/resetPassword", {
+      const res = await fetch("/api/user/resetPassword", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -54,6 +55,7 @@ export default function ResetPassword() {
       }
     } catch (error) {
       setError("Something went rong, please try later");
+      setLoading(false);
     }
   };
   if (emailSent) {

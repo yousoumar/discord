@@ -9,7 +9,7 @@ export default function Profile({ user, setUser }) {
     const name = e.currentTarget.name.value.trim();
     const bio = e.currentTarget.bio.value.trim();
     const phone = e.currentTarget.phone.value.trim();
-    const res = await fetch("/api/auth/updateProfile", {
+    const res = await fetch("/api/user/updateProfile", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({

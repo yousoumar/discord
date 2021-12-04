@@ -11,7 +11,7 @@ export default function Password({ setUser, user }) {
     const currentPassword = e.currentTarget.currentPassword.value.trim();
     const newPassword = e.currentTarget.newPassword.value.trim();
 
-    const res = await fetch("/api/auth/updatePassword", {
+    const res = await fetch("/api/user/updatePassword", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
