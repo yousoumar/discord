@@ -2,7 +2,7 @@ const User = require("../models/user");
 const bcrypt = require("bcrypt");
 const crypto = require("crypto");
 const sendEmail = require("../utils/sendEmail");
-const handleErrors = require("../utils/handleErrors");
+const handleAuthErrors = require("../utils/handleAuthErrors");
 
 /* ---------------------------- getUser ---------------------------------- */
 
@@ -22,7 +22,7 @@ const updateProfile = async (req, res) => {
     res.status(200).json(newUser);
   } catch (error) {
     console.log(error);
-    const errorDetails = handleErrors(error);
+    const errorDetails = handleAuthErrors(error);
     res.status(400).json(errorDetails);
   }
 };
@@ -56,7 +56,7 @@ const deleteProfile = async (req, res) => {
     }
   } catch (error) {
     console.log(error);
-    const errorDetails = handleErrors(error);
+    const errorDetails = handleAuthErrors(error);
     res.status(400).json(errorDetails);
   }
 };
@@ -79,7 +79,7 @@ const updatePassword = async (req, res) => {
     }
   } catch (error) {
     console.log(error);
-    const errorDetails = handleErrors(error);
+    const errorDetails = handleAuthErrors(error);
     res.status(400).json(errorDetails);
   }
 };
@@ -125,7 +125,7 @@ const forgotPassword = async (req, res) => {
     }
   } catch (error) {
     console.log(error);
-    const errorDetails = handleErrors(error);
+    const errorDetails = handleAuthErrors(error);
     res.status(400).json(errorDetails);
   }
 };
@@ -157,7 +157,7 @@ const resetPassword = async (req, res, next) => {
     res.status(200).json({ message: "Password reset succed" });
   } catch (err) {
     console.log(err);
-    const errorDetails = handleErrors(err);
+    const errorDetails = handleAuthErrors(err);
     res.status(400).json(errorDetails);
   }
 };

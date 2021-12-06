@@ -1,4 +1,4 @@
-const handleErrors = (err) => {
+const handleAuthErrors = (err) => {
   let errors = { email: "", password: "" };
 
   if (err.code === 11000) {
@@ -30,4 +30,4 @@ const handleErrors = (err) => {
 
   return { message: err.message };
 };
-module.exports = handleErrors;
+module.exports = handleAuthErrors;

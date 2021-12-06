@@ -1,6 +1,6 @@
 # Chat group
 
-A group chat challenge from `devchallenge.io`, coded it with `React`, `Sass`, `Express`, `NodeJs`, `Mongoose`, and `MongoDB`.
+A group chat challenge from `devchallenge.io`, coded with `React`, `Sass`, `Express`, `NodeJs`, `Mongoose`, and `MongoDB`.
 
 # Features
 

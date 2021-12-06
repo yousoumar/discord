@@ -1,7 +1,7 @@
 const User = require("../models/user");
 const bcrypt = require("bcrypt");
 const sendEmail = require("../utils/sendEmail");
-const handleErrors = require("../utils/handleErrors");
+const handleAuthErrors = require("../utils/handleAuthErrors");
 const createToken = require("../utils/createToken");
 
 /* ---------------------------- signup ---------------------------------- */
@@ -34,7 +34,7 @@ const signup = async (req, res) => {
     res.json(user);
   } catch (error) {
     console.log(error);
-    const errorDetails = handleErrors(error);
+    const errorDetails = handleAuthErrors(error);
     res.status(400).json(errorDetails);
   }
 };
@@ -70,7 +70,7 @@ const login = async (req, res) => {
     }
   } catch (error) {
     console.log(error);
-    const errorDetails = handleErrors(error);
+    const errorDetails = handleAuthErrors(error);
     res.status(400).json(errorDetails);
   }
 };
