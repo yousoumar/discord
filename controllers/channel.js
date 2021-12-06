@@ -1,8 +1,13 @@
 const Channel = require("../models/channel");
 const handleChannelErrors = require("../utils/handleChannelErrors");
 
-const getChannels = (req, res) => {
-  res.json({ message: "hello" });
+const getChannels = async (req, res) => {
+  try {
+    const channels = await Channel.find();
+    res.status(200).json(channels);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
 };
 
 const createChannel = async (req, res) => {
