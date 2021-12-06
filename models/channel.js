@@ -23,6 +23,10 @@ const schema = mongoose.Schema(
   { timestamps: true }
 );
 
+schema.pre("save", function (next) {
+  this.members.push(this.ownerId);
+  next();
+});
 const Channel = mongoose.model("channel", schema);
 
 module.exports = Channel;
