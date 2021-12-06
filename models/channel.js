@@ -1,14 +1,12 @@
 const mongoose = require("mongoose");
-const bcrypt = require("bcrypt");
-
 const schema = mongoose.Schema(
   {
     name: {
       type: String,
       required: [true, "A channel should have a title"],
       unique: true,
-      lowercase: true,
     },
+
     description: {
       type: String,
       default: "",
@@ -17,7 +15,7 @@ const schema = mongoose.Schema(
       type: Array,
       default: [],
     },
-    owner: {
+    ownerId: {
       type: String,
       required: [true, "A channel should have a owner"],
     },
