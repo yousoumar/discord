@@ -24,7 +24,10 @@ const schema = mongoose.Schema(
 );
 
 schema.pre("save", function (next) {
-  this.members.push(this.ownerId);
+  if (!this.members.includes(this.ownerId)) {
+    this.members.push(this.ownerId);
+  }
+
   next();
 });
 const Channel = mongoose.model("channel", schema);

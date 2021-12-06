@@ -50,4 +50,17 @@ const deleteChannel = async (req, res) => {
   }
 };
 
-module.exports = { getChannels, createChannel, deleteChannel };
+const joinChannel = async (req, res) => {
+  const { channelId } = req.params;
+
+  try {
+    const channel = await Channel.findById(channelId);
+    channel.members.push(req.user._id);
+    await channel.save();
+    res.status(200).json({ message: "channel joined with succes" });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json(error.message);
+  }
+};
+module.exports = { getChannels, createChannel, deleteChannel, joinChannel };
