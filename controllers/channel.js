@@ -55,12 +55,22 @@ const joinChannel = async (req, res) => {
 
   try {
     const channel = await Channel.findById(channelId);
+    if (!channel) {
+      return res
+        .status(400)
+        .json({ message: "you can not join an inexistente channel" });
+    }
+    if (channel.members.includes(req.user._id)) {
+      return res.status(403).json({ message: "channel alrady joined" });
+    }
+
     channel.members.push(req.user._id);
     await channel.save();
+
     res.status(200).json({ message: "channel joined with succes" });
   } catch (error) {
     console.log(error);
-    res.status(500).json(error.message);
+    res.status(500).json({ message: error.message });
   }
 };
 module.exports = { getChannels, createChannel, deleteChannel, joinChannel };
