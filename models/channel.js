@@ -15,6 +15,10 @@ const schema = mongoose.Schema(
       type: Array,
       default: [],
     },
+    messages: {
+      type: Array,
+      default: [],
+    },
     ownerId: {
       type: String,
       required: [true, "A channel should have a owner"],

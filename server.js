@@ -7,7 +7,6 @@ const cookieParser = require("cookie-parser");
 const authRouter = require("./routes/auth");
 const userRouter = require("./routes/user");
 const channelRouter = require("./routes/channel");
-
 const app = express();
 
 app.use(express.static(path.join(__dirname, "/client/build")));

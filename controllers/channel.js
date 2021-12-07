@@ -1,4 +1,5 @@
 const Channel = require("../models/channel");
+const Message = require("../models/message");
 const handleChannelErrors = require("../utils/handleChannelErrors");
 
 /* ---------------------------- get all channels ---------------------------------- */
@@ -98,10 +99,59 @@ const getChannelMembers = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+/* ---------------------------- get channel messages ---------------------------------- */
+
+const getChannelMessages = async (req, res) => {
+  const { channelId } = req.params;
+
+  try {
+    const channel = await Channel.findById(channelId);
+    if (!channel) {
+      return res.status(400).json({ message: "inexistente channel" });
+    }
+
+    const messages = await Promise.all(
+      channel.messages.map((id) => Message.findById(id))
+    );
+    res.status(200).json({ messages: messages });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: error.message });
+  }
+};
+
+/* ---------------------------- add message to channel ---------------------------------- */
+
+const addMessageToChannel = async (req, res) => {
+  const { channelId } = req.params;
+
+  try {
+    const channel = await Channel.findById(channelId);
+    if (!channel) {
+      return res.status(400).json({ message: "inexistente channel" });
+    }
+    const message = new Message({
+      ownerId: req.user._id,
+      text: req.body.text,
+      channelId,
+    });
+    await message.save();
+    channel.messages.push(message._id);
+    channel.save();
+    res.status(200).json({ message: message });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: error.message });
+  }
+};
+
 module.exports = {
   getChannels,
   createChannel,
   deleteChannel,
   joinChannel,
   getChannelMembers,
+  getChannelMessages,
+  addMessageToChannel,
 };
