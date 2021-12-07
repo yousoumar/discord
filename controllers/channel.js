@@ -1,6 +1,8 @@
 const Channel = require("../models/channel");
 const handleChannelErrors = require("../utils/handleChannelErrors");
 
+/* ---------------------------- get all channels ---------------------------------- */
+
 const getChannels = async (req, res) => {
   try {
     const channels = await Channel.find();
@@ -9,6 +11,8 @@ const getChannels = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+/* ---------------------------- create a channel ---------------------------------- */
 
 const createChannel = async (req, res) => {
   const { name, description } = req.body;
@@ -23,6 +27,8 @@ const createChannel = async (req, res) => {
     res.status(400).json(formatedError);
   }
 };
+
+/* ---------------------------- delete a channel ---------------------------------- */
 
 const deleteChannel = async (req, res) => {
   const { channelId } = req.params;
@@ -49,6 +55,8 @@ const deleteChannel = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+/* ---------------------------- join a channel ---------------------------------- */
 
 const joinChannel = async (req, res) => {
   const { channelId } = req.params;
