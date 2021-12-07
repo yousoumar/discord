@@ -6,6 +6,7 @@ import User from "../../contexts/User";
 import "./App.scss";
 import ResetPassword from "../../pages/ResetPassword/ResetPassword";
 import NotFound from "../../pages/NotFound/NotFound";
+import Channel from "../../pages/Channel/Channel";
 
 function App() {
   return (
@@ -21,6 +22,9 @@ function App() {
             </Route>
             <Route path="/resetPassword">
               <ResetPassword />
+            </Route>
+            <Route exact path="/channel">
+              <Channel />
             </Route>
             <Route exact path="/">
               <Home />
