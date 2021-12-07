@@ -3,7 +3,7 @@ const schema = mongoose.Schema(
   {
     name: {
       type: String,
-      required: [true, "A channel should have a title"],
+      required: [true, "A channel should have a name"],
       unique: true,
     },
 
