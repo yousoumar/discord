@@ -81,4 +81,27 @@ const joinChannel = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
-module.exports = { getChannels, createChannel, deleteChannel, joinChannel };
+
+/* ---------------------------- get channel memebers ---------------------------------- */
+
+const getChannelMembers = async (req, res) => {
+  const { channelId } = req.params;
+
+  try {
+    const channel = await Channel.findById(channelId);
+    if (!channel) {
+      return res.status(400).json({ message: "inexistente channel" });
+    }
+    res.status(200).json({ members: channel.members });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: error.message });
+  }
+};
+module.exports = {
+  getChannels,
+  createChannel,
+  deleteChannel,
+  joinChannel,
+  getChannelMembers,
+};
