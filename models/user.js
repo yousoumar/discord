@@ -11,6 +11,7 @@ const schema = mongoose.Schema(
       lowercase: true,
       validate: [isEmail, "Please enter a valid email"],
     },
+
     password: {
       type: String,
       required: [true, "Please enter a password"],
@@ -18,12 +19,19 @@ const schema = mongoose.Schema(
     },
     name: {
       type: String,
+      default: "",
     },
     bio: {
       type: String,
+      default: "",
     },
     phone: {
       type: String,
+      default: "",
+    },
+    picture: {
+      type: String,
+      default: "",
     },
     resetPasswordToken: {
       type: String,

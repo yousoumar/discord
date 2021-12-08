@@ -1,6 +1,6 @@
 import { useState, useContext, useEffect } from "react";
 import { Link, useHistory } from "react-router-dom";
-import { UserContext } from "../../contexts/User";
+import { UserContext } from "../../contexts/UserContextProvider";
 
 import Form from "../../components/Form/Form";
 import logo from "../../assets/logo.svg";

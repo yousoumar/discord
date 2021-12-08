@@ -5,8 +5,9 @@ const schema = mongoose.Schema(
       type: String,
       default: "",
     },
-    ownerId: {
-      type: String,
+
+    owner: {
+      type: Object,
       required: [true, "A message should have a owner"],
     },
     channelId: {

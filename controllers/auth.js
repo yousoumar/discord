@@ -3,13 +3,27 @@ const bcrypt = require("bcrypt");
 const sendEmail = require("../utils/sendEmail");
 const handleAuthErrors = require("../utils/handleAuthErrors");
 const createToken = require("../utils/createToken");
+const Channel = require("../models/channel");
 
 /* ---------------------------- signup ---------------------------------- */
 
 const signup = async (req, res) => {
   const { email, password } = req.body;
   try {
-    const user = await User.create({ email, password });
+    const user = User({ email, password });
+    let welcome = await Channel.findOne({ name: "Welcome" });
+    if (!welcome) {
+      welcome = await Channel.create({
+        name: "Welcome",
+        description:
+          "This is Welcome channel, the channel where everyone can get in",
+        ownerId: user._id,
+      });
+    } else {
+      welcome.members.push(user._id.toString());
+    }
+    await user.save();
+    await welcome.save();
     const token = createToken(user._id);
     res.cookie("token", token, {
       httpOnly: true,

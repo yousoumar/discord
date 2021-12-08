@@ -1,6 +1,18 @@
 const Channel = require("../models/channel");
 const Message = require("../models/message");
+const User = require("../models/user");
 const handleChannelErrors = require("../utils/handleChannelErrors");
+
+/* ---------------------------- get welcome channel ---------------------------------- */
+
+const getWelcomeChannel = async (req, res) => {
+  try {
+    const channel = await Channel.findOne({ name: "Welcome" });
+    res.status(200).json({ channel });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
 
 /* ---------------------------- get all channels ---------------------------------- */
 
@@ -69,11 +81,11 @@ const joinChannel = async (req, res) => {
         .status(400)
         .json({ message: "you can not join an inexistente channel" });
     }
-    if (channel.members.includes(req.user._id)) {
+    if (channel.members.includes(req.user._id.toString())) {
       return res.status(403).json({ message: "channel alrady joined" });
     }
 
-    channel.members.push(req.user._id);
+    channel.members.push(req.user._id.toString());
     await channel.save();
 
     res.status(200).json({ message: "channel joined with succes" });
@@ -93,7 +105,10 @@ const getChannelMembers = async (req, res) => {
     if (!channel) {
       return res.status(400).json({ message: "inexistente channel" });
     }
-    res.status(200).json({ members: channel.members });
+    const members = await Promise.all(
+      channel.members.map((id) => User.findById(id))
+    );
+    res.status(200).json({ members: members });
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: error.message });
@@ -132,13 +147,13 @@ const addMessageToChannel = async (req, res) => {
       return res.status(400).json({ message: "inexistente channel" });
     }
     const message = new Message({
-      ownerId: req.user._id,
+      owner: req.user,
       text: req.body.text,
       channelId,
     });
     await message.save();
     channel.messages.push(message._id);
-    channel.save();
+    await channel.save();
     res.status(200).json({ message: message });
   } catch (error) {
     console.log(error);
@@ -154,4 +169,5 @@ module.exports = {
   getChannelMembers,
   getChannelMessages,
   addMessageToChannel,
+  getWelcomeChannel,
 };

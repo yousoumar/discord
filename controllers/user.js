@@ -1,4 +1,5 @@
 const User = require("../models/user");
+const Message = require("../models/message");
 const bcrypt = require("bcrypt");
 const crypto = require("crypto");
 const sendEmail = require("../utils/sendEmail");
@@ -19,6 +20,7 @@ const updateProfile = async (req, res) => {
   user.phone = req.body.phone;
   try {
     const newUser = await user.save();
+
     res.status(200).json(newUser);
   } catch (error) {
     console.log(error);

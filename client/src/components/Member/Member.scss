@@ -1,0 +1,14 @@
+.member {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  img {
+    width: 3rem;
+    height: 3rem;
+    object-fit: cover;
+    border-radius: 50%;
+  }
+  .name {
+    color: rgb(196, 196, 196);
+  }
+}

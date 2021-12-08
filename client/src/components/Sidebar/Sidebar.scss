@@ -5,6 +5,46 @@
   top: 0;
   left: 0;
   height: 100%;
-  width: calc(100% - 90px);
+  width: 100%;
   z-index: 3;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  .top {
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    padding: 1rem;
+    height: 60px;
+    display: flex;
+
+    button {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      font-weight: bold;
+      img {
+        width: 1rem;
+      }
+    }
+  }
+  .body {
+    padding: 2rem 1rem;
+  }
+  .current-channel {
+    margin-bottom: 1rem;
+    h1 {
+      margin-bottom: 1rem;
+    }
+  }
+  .current-channel-members {
+    margin-top: 3rem;
+  }
+  .members {
+    margin: 1rem 0;
+    display: grid;
+    gap: 1rem;
+  }
+
+  .account {
+    padding: 1rem;
+    background: #0b090c;
+  }
 }

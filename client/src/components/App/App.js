@@ -2,17 +2,19 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Login from "../../pages/Login/Login";
 import Signup from "../../pages/Signup/Signup";
 import Home from "../../pages/Home/Home";
-import User from "../../contexts/User";
+import UserContextProvider from "../../contexts/UserContextProvider";
 import "./App.scss";
 import ResetPassword from "../../pages/ResetPassword/ResetPassword";
 import NotFound from "../../pages/NotFound/NotFound";
-import Channel from "../../pages/Channel/Channel";
+import PrivateRoute from "../../routes/PrivateRoute";
+import Chat from "../../pages/Chat/Chat";
+import ChatContextProvider from "../../contexts/ChatContextProvider";
 
 function App() {
   return (
     <div className="app">
       <Router>
-        <User>
+        <UserContextProvider>
           <Switch>
             <Route path="/login">
               <Login />
@@ -23,17 +25,19 @@ function App() {
             <Route path="/resetPassword">
               <ResetPassword />
             </Route>
-            <Route exact path="/channel">
-              <Channel />
-            </Route>
-            <Route exact path="/">
-              <Home />
-            </Route>
+
+            <PrivateRoute path="/chat">
+              <ChatContextProvider>
+                <Chat />
+              </ChatContextProvider>
+            </PrivateRoute>
+
+            <PrivateRoute exact path="/" component={Home}></PrivateRoute>
             <Route path="/*">
               <NotFound />
             </Route>
           </Switch>
-        </User>
+        </UserContextProvider>
       </Router>
     </div>
   );

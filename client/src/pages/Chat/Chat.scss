@@ -1,9 +1,9 @@
-.channel {
+.chat {
   height: 100vh;
   width: 100%;
   display: grid;
   gap: 2rem;
-  grid-template-rows: auto 1fr auto;
+  grid-template-rows: 1fr auto;
 
   button {
     outline: none;
@@ -17,21 +17,10 @@
     background: #252329;
     padding: 1rem;
     border-radius: 1rem;
+    margin-top: 1rem;
 
-    .top {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-
-      img {
-        width: 3rem;
-        height: 3rem;
-        object-fit: cover;
-        border-radius: 50%;
-      }
-    }
-    .name {
-      color: rgb(196, 196, 196);
+    .text {
+      margin-top: 0.5rem;
     }
   }
 

@@ -1,6 +1,6 @@
 import { Link, useHistory } from "react-router-dom";
 import { useContext } from "react";
-import { UserContext } from "../../contexts/User";
+import { UserContext } from "../../contexts/UserContextProvider";
 import logo from "../../assets/logo.svg";
 import "./Header.scss";
 export default function Nav() {

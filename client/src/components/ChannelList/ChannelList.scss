@@ -1,0 +1,22 @@
+.channel-list {
+  display: grid;
+  gap: 1rem;
+
+  .item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    .left {
+      background: #252329;
+      border-radius: 8px;
+      width: 42px;
+      height: 42px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .right {
+      color: #bdbdbd;
+    }
+  }
+}

@@ -10,8 +10,6 @@
 }
 body {
   font-family: sans-serif;
-  max-width: 1200px;
-  margin: 0 auto;
   background-color: #333333;
   background-size: cover;
   background-position: center;
@@ -27,14 +25,18 @@ a {
   text-decoration: none;
   color: #2f80ed;
 }
+
+button {
+  background-color: transparent;
+  outline: none;
+  border: none;
+  cursor: pointer;
+}
 .button {
   border: 1px solid #bdbdbd;
   padding: 0.5rem 1rem;
   border-radius: 8px;
   color: white;
-  outline: none;
-  cursor: pointer;
-  background-color: transparent;
 
   &.primary {
     background: #2f80ed;
