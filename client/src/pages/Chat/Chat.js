@@ -30,29 +30,33 @@ export default function Chat() {
     fetchData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentChannel]);
-  console.log(currentChannel);
+
   const handleSumbit = async (e) => {
     e.preventDefault();
-    console.log(e.currentTarget.message.value);
+    const message = e.currentTarget.message.value;
+    e.currentTarget.message.value = "";
+
     try {
-      const res = await fetch(
+      await fetch(
         "/api/channel/addMessageToChannel/" + currentChannel._id,
 
         {
           method: "POST",
-          body: JSON.stringify({ text: e.currentTarget.message.value }),
+          body: JSON.stringify({ text: message }),
           headers: { "Content-Type": "application/json" },
         }
       );
-      const data = await res.json();
-      console.log(data);
     } catch (error) {
       console.log(error);
     }
   };
   return (
     <div className="chat">
-      <Topbar showSidebar={showSidebar} setShowSidebar={setShowSidebar} />
+      <Topbar
+        showSidebar={showSidebar}
+        setShowSidebar={setShowSidebar}
+        currentChannel={currentChannel}
+      />
 
       <Sidebar currentChannel={currentChannel} showSidebar={showSidebar} />
       <div className="messages">
