@@ -7,6 +7,8 @@
     justify-content: space-between;
     align-items: center;
     padding: 1rem;
+    background: #252329;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     a {
       text-decoration: none;
       display: inline-block;
@@ -31,13 +33,13 @@
   .info-box {
     width: 100%;
     margin-top: 2rem;
-    border: 1px solid #bdbdbd;
+    border: 1px solid #120f13;
     border-radius: 12px;
 
     overflow: hidden;
     .row {
       padding: 1rem;
-      border-bottom: 1px solid #bdbdbd;
+      border-bottom: 1px solid #120f13;
       display: grid;
       grid-template-columns: 1fr auto;
       gap: 4rem;
@@ -66,6 +68,19 @@
   form {
     .button {
       width: max-content;
+    }
+  }
+
+  @media all and (min-width: 700px) {
+    & {
+      main {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 2rem;
+        max-width: 1200px;
+        margin-left: auto;
+        margin-right: auto;
+      }
     }
   }
 }

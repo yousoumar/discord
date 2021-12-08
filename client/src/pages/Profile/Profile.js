@@ -33,9 +33,13 @@ export default function Profile({ user, setUser, history }) {
       </header>
 
       <main>
-        <EditInfo user={user} setUser={setUser} />
-        <Password user={user} setUser={setUser} />
-        <DeleteProfile user={user} setUser={setUser} history={history} />
+        <div>
+          <EditInfo user={user} setUser={setUser} />
+        </div>
+        <div>
+          <Password user={user} setUser={setUser} />
+          <DeleteProfile user={user} setUser={setUser} history={history} />
+        </div>
       </main>
     </div>
   );

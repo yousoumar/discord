@@ -64,7 +64,7 @@ export default function EditInfo({ user, setUser }) {
           {!loading && (
             <button
               to=""
-              className="button "
+              className="button"
               onClick={() => setShowForm(false)}
               style={{ marginLeft: "1rem" }}
             >
@@ -82,7 +82,11 @@ export default function EditInfo({ user, setUser }) {
           <h2>Profile</h2>
         </div>
         <div className="right">
-          <button to="" className="button" onClick={() => setShowForm(true)}>
+          <button
+            to=""
+            className="button primary"
+            onClick={() => setShowForm(true)}
+          >
             Edit
           </button>
         </div>
