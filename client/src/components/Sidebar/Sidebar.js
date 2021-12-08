@@ -42,8 +42,8 @@ export default function Sidebar({ currentChannel, showSidebar }) {
       ) : (
         <div className="body">
           <div className="current-channel">
-            <h1>{currentChannel ? currentChannel.name : "..."}</h1>
-            <p>{currentChannel ? currentChannel.description : "..."}</p>
+            <h1>{currentChannel && currentChannel.name} </h1>
+            <p>{currentChannel && currentChannel.description}</p>
           </div>
           <div className="current-channel-members">
             <h1>Members</h1>

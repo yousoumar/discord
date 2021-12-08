@@ -39,6 +39,10 @@ const schema = mongoose.Schema(
     resetPasswordTokenExpire: {
       type: Date,
     },
+    channels: {
+      type: Array,
+      default: [],
+    },
   },
   { timestamps: true }
 );

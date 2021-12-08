@@ -22,6 +22,7 @@ const signup = async (req, res) => {
     } else {
       welcome.members.push(user._id.toString());
     }
+    user.channels.push(welcome._id.toString());
     await user.save();
     await welcome.save();
     const token = createToken(user._id);
