@@ -11,7 +11,7 @@ export default function Signup() {
   const history = useHistory();
   useEffect(() => {
     if (localStorage.getItem("logged")) {
-      history.push("/");
+      history.push("/profile");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   });
@@ -33,7 +33,7 @@ export default function Signup() {
       setUser(data);
       localStorage.setItem("logged", true);
       setLoading(false);
-      history.push("/");
+      history.push("/profile");
     } else {
       setLoading(false);
       setError(data);

@@ -1,6 +1,6 @@
 import "./Member.scss";
 
-export default function Member({ member }) {
+export default function Member({ member, hideName }) {
   return (
     <div className="member">
       <img
@@ -11,7 +11,9 @@ export default function Member({ member }) {
         }
         alt=""
       />
-      <div className="name">{member.name ? member.name : "A secret one"}</div>
+      {!hideName && (
+        <div className="name">{member.name ? member.name : "A secret one"}</div>
+      )}
     </div>
   );
 }

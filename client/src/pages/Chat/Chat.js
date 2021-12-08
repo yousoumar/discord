@@ -53,8 +53,8 @@ export default function Chat() {
   return (
     <div className="chat">
       <Topbar showSidebar={showSidebar} setShowSidebar={setShowSidebar} />
-      {showSidebar && <Sidebar currentChannel={currentChannel} />}
 
+      <Sidebar currentChannel={currentChannel} showSidebar={showSidebar} />
       <div className="messages">
         {messages &&
           messages.map((m) => (
@@ -64,6 +64,7 @@ export default function Chat() {
             </div>
           ))}
       </div>
+
       <form action="" onSubmit={handleSumbit}>
         <div className="group">
           <input type="text" name="message" placeholder="Type a message here" />

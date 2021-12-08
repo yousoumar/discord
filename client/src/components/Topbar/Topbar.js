@@ -7,7 +7,6 @@ export default function Topbar({ showSidebar, setShowSidebar }) {
         onClick={() => {
           setShowSidebar(!showSidebar);
         }}
-        style={{ backgroundColor: !showSidebar ? "#120f13" : "#252329" }}
       >
         {showSidebar ? "Close" : "Menu"}
       </button>

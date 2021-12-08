@@ -1,9 +1,10 @@
 import { useContext, useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { UserContext } from "../../contexts/UserContextProvider";
 import ChannelList from "../ChannelList/ChannelList";
 import Member from "../Member/Member";
 import "./Sidebar.scss";
-export default function Sidebar({ currentChannel }) {
+export default function Sidebar({ currentChannel, showSidebar }) {
   const [showChannels, setShowChannels] = useState(false);
   const [currentChannelMembers, setCurrentChannelMembers] = useState([]);
   const { user } = useContext(UserContext);
@@ -17,11 +18,13 @@ export default function Sidebar({ currentChannel }) {
       console.log(data.members);
       setCurrentChannelMembers(data.members);
     };
-    fetchData();
+    if (currentChannel) {
+      fetchData();
+    }
   }, [currentChannel]);
 
   return (
-    <nav className="sidebar">
+    <nav className={showSidebar ? "sidebar show" : "sidebar"}>
       <div className="top">
         {!showChannels ? (
           <button onClick={() => setShowChannels(!showChannels)}>
@@ -29,12 +32,12 @@ export default function Sidebar({ currentChannel }) {
             <span>All channels</span>
           </button>
         ) : (
-          <div>Channels</div>
+          <h1>Channels</h1>
         )}
       </div>
       {showChannels ? (
         <div className="body">
-          <ChannelList />
+          <ChannelList setShowChannels={setShowChannels} />
         </div>
       ) : (
         <div className="body">
@@ -54,7 +57,10 @@ export default function Sidebar({ currentChannel }) {
       )}
 
       <div className="account">
-        <Member member={user} />
+        <Link to="/profile">
+          {" "}
+          <Member member={user} hideName={true} />
+        </Link>
       </div>
     </nav>
   );

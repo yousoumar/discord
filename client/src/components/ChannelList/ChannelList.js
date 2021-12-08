@@ -2,7 +2,7 @@ import { useState, useEffect, useContext } from "react";
 import { ChatContext } from "../../contexts/ChatContextProvider";
 
 import "./ChannelList.scss";
-export default function ChannelList() {
+export default function ChannelList({ setShowChannels }) {
   const [channels, setChannels] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -27,8 +27,10 @@ export default function ChannelList() {
           className="item"
           key={c._id}
           onClick={() => {
+            fetch("/api/channel/join/" + c._id, { method: "PUT" });
             setCurrentChannel(c);
             setShowSidebar(false);
+            setShowChannels(false);
           }}
         >
           <div className="left">{c.name[0]}</div>

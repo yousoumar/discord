@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Login from "../../pages/Login/Login";
 import Signup from "../../pages/Signup/Signup";
-import Home from "../../pages/Home/Home";
+import Profile from "../../pages/Profile/Profile";
 import UserContextProvider from "../../contexts/UserContextProvider";
 import "./App.scss";
 import ResetPassword from "../../pages/ResetPassword/ResetPassword";
@@ -25,14 +25,14 @@ function App() {
             <Route path="/resetPassword">
               <ResetPassword />
             </Route>
+            <PrivateRoute path="/profile" component={Profile}></PrivateRoute>
 
-            <PrivateRoute path="/chat">
+            <PrivateRoute exact path="/">
               <ChatContextProvider>
                 <Chat />
               </ChatContextProvider>
             </PrivateRoute>
 
-            <PrivateRoute exact path="/" component={Home}></PrivateRoute>
             <Route path="/*">
               <NotFound />
             </Route>

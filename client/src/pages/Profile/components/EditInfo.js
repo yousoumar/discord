@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export default function Profile({ user, setUser }) {
+export default function EditInfo({ user, setUser }) {
   const [loading, setLoading] = useState(false);
   const [showFrom, setShowForm] = useState(false);
   const handleSubmit = async (e) => {
