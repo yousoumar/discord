@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export default function EditInfo({ user, setUser }) {
+export default function EditInfo({ user, setUser, setError }) {
   const [loading, setLoading] = useState(false);
   const [showFrom, setShowForm] = useState(false);
   const handleSubmit = async (e) => {
@@ -85,7 +85,10 @@ export default function EditInfo({ user, setUser }) {
           <button
             to=""
             className="button primary"
-            onClick={() => setShowForm(true)}
+            onClick={() => {
+              setShowForm(true);
+              setError(false);
+            }}
           >
             Edit
           </button>

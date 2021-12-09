@@ -45,7 +45,7 @@ export default function Profile({ user, setUser, history }) {
 
       <main>
         <div>
-          <EditInfo user={user} setUser={setUser} />
+          <EditInfo user={user} setUser={setUser} setError={setError} />
           {error && (
             <p className="error">
               You have to set a name before joining the chat
