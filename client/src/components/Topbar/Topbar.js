@@ -17,8 +17,8 @@ export default function Topbar() {
   const createChannel = async (e) => {
     e.preventDefault();
     if (loading) return;
-    const name = e.currentTarget.name.value;
-    const description = e.currentTarget.description.value;
+    const name = e.currentTarget.name.value.trim();
+    const description = e.currentTarget.description.value.trim();
 
     if (!name || !description) {
       setError("A channel should have a name and description.");
