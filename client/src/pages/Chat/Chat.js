@@ -1,6 +1,6 @@
 import "./Chat.scss";
 
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState, useContext, useRef } from "react";
 import { io } from "socket.io-client";
 
 import Sidebar from "../../components/Sidebar/Sidebar";
@@ -14,6 +14,7 @@ export default function Chat() {
     useContext(ChatContext);
   const { user } = useContext(UserContext);
   const [messages, setMessages] = useState([]);
+  const chatBoxRef = useRef();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -40,9 +41,6 @@ export default function Chat() {
 
   useEffect(() => {
     socket.current = io("ws://localhost:8900");
-  }, [socket]);
-
-  useEffect(() => {
     if (!currentChannel) return;
     socket.current.emit("addUser", {
       user,
@@ -54,6 +52,13 @@ export default function Chat() {
     socket.current.on("getMessage", (data) => {
       setMessages([...messages, data.message]);
     });
+    chatBoxRef.current.scrollTop = chatBoxRef.current.scrollHeight;
+    return () => {
+      socket.current.emit("removeUser", {
+        userId: user._id,
+        roomId: currentChannel._id,
+      });
+    };
   }, [currentChannel, user, messages, socket]);
 
   const handleSumbit = async (e) => {
@@ -91,7 +96,7 @@ export default function Chat() {
         showSidebar={showSidebar}
         socket={socket}
       />
-      <div className="messages">
+      <div className="messages" ref={chatBoxRef}>
         {messages &&
           messages.map((m) => (
             <div className="message" key={m._id}>
@@ -100,18 +105,13 @@ export default function Chat() {
             </div>
           ))}
       </div>
-      <div className="form-container">
-        <form action="" onSubmit={handleSumbit}>
-          <div className="group">
-            <input
-              type="text"
-              name="message"
-              placeholder="Type a message here"
-            />
-            <button type="submit">Send</button>
-          </div>
-        </form>
-      </div>
+
+      <form action="" onSubmit={handleSumbit}>
+        <div className="group">
+          <input type="text" name="message" placeholder="Type a message here" />
+          <button type="submit">Send</button>
+        </div>
+      </form>
     </div>
   );
 }
