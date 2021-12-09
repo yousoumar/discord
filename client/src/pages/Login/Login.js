@@ -1,6 +1,6 @@
-import { useState, useContext, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Link, useHistory } from "react-router-dom";
-import { UserContext } from "../../contexts/UserContextProvider";
+import { useUserContext } from "../../contexts/UserContextProvider";
 
 import Form from "../../components/Form/Form";
 import logo from "../../assets/logo.svg";
@@ -10,7 +10,7 @@ import "./Login.scss";
 export default function Login() {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
-  const { setUser } = useContext(UserContext);
+  const { setUser } = useUserContext();
   const history = useHistory();
 
   useEffect(() => {

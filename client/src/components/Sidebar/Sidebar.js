@@ -1,20 +1,21 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
-import { ChatContext } from "../../contexts/ChatContextProvider";
-import { UserContext } from "../../contexts/UserContextProvider";
+import { useChatContext } from "../../contexts/ChatContextProvider";
+import { useUserContext } from "../../contexts/UserContextProvider";
 import ChannelList from "../ChannelList/ChannelList";
 import Member from "../Member/Member";
 import "./Sidebar.scss";
 export default function Sidebar() {
-  const [showChannels, setShowChannels] = useState(false);
-  const { user } = useContext(UserContext);
+  const { user } = useUserContext();
   const {
     currentChannel,
     currentChannelMembers,
     setCurrentChannelMembers,
     showSidebar,
     socket,
-  } = useContext(ChatContext);
+    showChannels,
+    setShowChannels,
+  } = useChatContext();
 
   useEffect(() => {
     const fetchData = async () => {

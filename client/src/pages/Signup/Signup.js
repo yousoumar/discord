@@ -1,13 +1,13 @@
 import Form from "../../components/Form/Form";
-import { useState, useContext, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Link, useHistory } from "react-router-dom";
-import { UserContext } from "../../contexts/UserContextProvider";
+import { useUserContext } from "../../contexts/UserContextProvider";
 import logo from "../../assets/logo.svg";
 import "./Signup.scss";
 export default function Signup() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const { setUser } = useContext(UserContext);
+  const { setUser } = useUserContext();
   const history = useHistory();
   useEffect(() => {
     if (localStorage.getItem("logged")) {

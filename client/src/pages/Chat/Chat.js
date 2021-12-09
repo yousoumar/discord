@@ -5,14 +5,14 @@ import { io } from "socket.io-client";
 
 import Sidebar from "../../components/Sidebar/Sidebar";
 import Topbar from "../../components/Topbar/Topbar";
-import { ChatContext } from "../../contexts/ChatContextProvider";
+import { useChatContext } from "../../contexts/ChatContextProvider";
 import Member from "../../components/Member/Member";
-import { UserContext } from "../../contexts/UserContextProvider";
+import { useUserContext } from "../../contexts/UserContextProvider";
 
 export default function Chat() {
   const { currentChannel, setCurrentChannel, showSidebar, socket } =
-    useContext(ChatContext);
-  const { user } = useContext(UserContext);
+    useChatContext();
+  const { user } = useUserContext();
   const [messages, setMessages] = useState([]);
   const chatBoxRef = useRef();
 

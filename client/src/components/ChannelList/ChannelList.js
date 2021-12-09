@@ -1,14 +1,18 @@
-import { useState, useEffect, useContext } from "react";
-import { ChatContext } from "../../contexts/ChatContextProvider";
-import { UserContext } from "../../contexts/UserContextProvider";
+import { useState, useEffect } from "react";
+import { useChatContext } from "../../contexts/ChatContextProvider";
+import { useUserContext } from "../../contexts/UserContextProvider";
 
 import "./ChannelList.scss";
 export default function ChannelList({ setShowChannels, socket }) {
-  const [channels, setChannels] = useState([]);
   const [loading, setLoading] = useState(true);
-  const { user } = useContext(UserContext);
-  const { currentChannel, setCurrentChannel, setShowSidebar } =
-    useContext(ChatContext);
+  const { user } = useUserContext();
+  const {
+    currentChannel,
+    setCurrentChannel,
+    setShowSidebar,
+    setChannels,
+    channels,
+  } = useChatContext();
 
   useEffect(() => {
     const fetchChannels = async () => {
@@ -18,7 +22,8 @@ export default function ChannelList({ setShowChannels, socket }) {
       setLoading(false);
     };
     fetchChannels();
-  }, []);
+  }, [setChannels]);
+
   if (loading) {
     return <p>Loading...</p>;
   }

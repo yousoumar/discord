@@ -1,8 +1,8 @@
 import { Route, useHistory } from "react-router-dom";
-import { useContext, useState, useEffect } from "react";
-import { UserContext } from "../contexts/UserContextProvider";
+import { useState, useEffect } from "react";
+import { useUserContext } from "../contexts/UserContextProvider";
 const PrivateRoute = ({ component: Component, ...rest }) => {
-  const { user, setUser } = useContext(UserContext);
+  const { user, setUser } = useUserContext();
   const [loading, setLoding] = useState(true);
   const history = useHistory();
   useEffect(() => {

@@ -1,6 +1,6 @@
 const handleChannelErrors = (err) => {
   if (err.code === 11000) {
-    return { message: "that channel is already registered" };
+    return { message: "That channel is already registered" };
   }
 
   if (err.message.includes("channel validation failed")) {
