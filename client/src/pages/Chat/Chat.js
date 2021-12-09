@@ -1,6 +1,6 @@
 import "./Chat.scss";
 
-import { useEffect, useState, useContext, useRef } from "react";
+import { useEffect, useState, useRef } from "react";
 import { io } from "socket.io-client";
 
 import Sidebar from "../../components/Sidebar/Sidebar";
