@@ -99,7 +99,7 @@ export default function EditInfo({ user, setUser, setError }) {
           <p>Name</p>
         </div>
         <div className="right">
-          <p>{user.name ? user.name : "No name set"}</p>
+          <p>{user.name ? user.name : "................."}</p>
         </div>
       </div>
       <div className="row">
@@ -107,7 +107,7 @@ export default function EditInfo({ user, setUser, setError }) {
           <p>Bio</p>
         </div>
         <div className="right">
-          <p>{user.bio ? user.bio : "No bio set"}</p>
+          <p>{user.bio ? user.bio : "................."}</p>
         </div>
       </div>
       <div className="row">
@@ -115,7 +115,7 @@ export default function EditInfo({ user, setUser, setError }) {
           <p>Phone</p>
         </div>
         <div className="right">
-          <p>{user.phone ? user.phone : "No phone set"}</p>
+          <p>{user.phone ? user.phone : "................."}</p>
         </div>
       </div>
     </div>

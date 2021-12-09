@@ -35,15 +35,19 @@ export default function Login() {
 
     const data = await res.json();
     if (res.ok) {
-      setUser(data);
       localStorage.setItem("logged", true);
       setLoading(false);
-      history.push("/");
+      setUser(data);
+
+      if (!data.name.trim()) {
+        history.push("/profile");
+      } else {
+        history.push("/");
+      }
     } else {
       setLoading(false);
       setError(data);
     }
-    setLoading(false);
   };
   return (
     <main className="login">

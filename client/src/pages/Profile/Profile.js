@@ -32,7 +32,7 @@ export default function Profile({ user, setUser, history }) {
             to="/"
             className="button primary"
             onClick={(e) => {
-              if (!user.name) {
+              if (!user.name.trim()) {
                 setError(true);
                 e.preventDefault();
               }
