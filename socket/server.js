@@ -6,9 +6,9 @@ const io = require("socket.io")(8900, {
 
 let users = [];
 
-const addUser = (userId, roomId, socketId) => {
-  users = users.filter((user) => user !== userId);
-  users.push({ userId, roomId, socketId });
+const addUser = (user, roomId, socketId) => {
+  users = users.filter((user) => user.socketId !== socketId);
+  users.push({ user, roomId, socketId });
 };
 
 const removeUser = (socketId) => {
@@ -22,23 +22,23 @@ const getUser = (userId) => {
 io.on("connection", (socket) => {
   console.log("a user connected.");
 
-  socket.on("addUser", ({ userId, roomId }) => {
-    addUser(userId, roomId, socket.id);
+  socket.on("addUser", ({ user, roomId }) => {
+    addUser(user, roomId, socket.id);
     socket.join(roomId);
+
     io.to(roomId).emit("getUsers", users);
   });
 
-  socket.on("removeUser", ({ userId, roomId }) => {
+  socket.on("removeUser", ({ roomId }) => {
     removeUser(socket.id);
     socket.leave(roomId);
     io.to(roomId).emit("getUsers", users);
   });
 
-  socket.on("sendMessage", ({ senderId, receiverId, text }) => {
-    const user = getUser(receiverId);
-    io.to(user.socketId).emit("getMessage", {
+  socket.on("sendMessage", ({ senderId, roomId, message }) => {
+    io.to(roomId).emit("getMessage", {
       senderId,
-      text,
+      message,
     });
   });
 

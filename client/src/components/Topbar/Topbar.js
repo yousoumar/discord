@@ -1,9 +1,9 @@
+import { useContext } from "react";
+import { ChatContext } from "../../contexts/ChatContextProvider";
 import "./Topbar.scss";
-export default function Topbar({
-  showSidebar,
-  setShowSidebar,
-  currentChannel,
-}) {
+export default function Topbar() {
+  const { showSidebar, setShowSidebar, currentChannel } =
+    useContext(ChatContext);
   return (
     <div className="topbar">
       <h1>{currentChannel && currentChannel.name}</h1>

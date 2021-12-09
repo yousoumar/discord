@@ -1,6 +1,6 @@
 import "./Chat.scss";
 
-import { useEffect, useState, useContext, useRef } from "react";
+import { useEffect, useState, useContext } from "react";
 import { io } from "socket.io-client";
 
 import Sidebar from "../../components/Sidebar/Sidebar";
@@ -10,11 +10,10 @@ import Member from "../../components/Member/Member";
 import { UserContext } from "../../contexts/UserContextProvider";
 
 export default function Chat() {
-  const { currentChannel, setCurrentChannel, showSidebar, setShowSidebar } =
+  const { currentChannel, setCurrentChannel, showSidebar, socket } =
     useContext(ChatContext);
   const { user } = useContext(UserContext);
   const [messages, setMessages] = useState([]);
-  const socket = useRef();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -28,6 +27,7 @@ export default function Chat() {
             "/api/channel/getChannelMessages/" + currentChannel._id
           );
           const data = await res.json();
+
           setMessages(data.messages);
         }
       } catch (error) {
@@ -40,21 +40,21 @@ export default function Chat() {
 
   useEffect(() => {
     socket.current = io("ws://localhost:8900");
-    socket.current.on("getMessage", (data) => {
-      console.log(data);
-    });
-  }, []);
+  }, [socket]);
 
   useEffect(() => {
     if (!currentChannel) return;
     socket.current.emit("addUser", {
-      userId: user._id,
+      user,
       roomId: currentChannel._id,
     });
     socket.current.on("getUsers", (users) => {
       console.log(users.filter((user) => user.roomId === currentChannel._id));
     });
-  }, [currentChannel, user]);
+    socket.current.on("getMessage", (data) => {
+      setMessages([...messages, data.message]);
+    });
+  }, [currentChannel, user, messages, socket]);
 
   const handleSumbit = async (e) => {
     e.preventDefault();
@@ -62,7 +62,7 @@ export default function Chat() {
     e.currentTarget.message.value = "";
 
     try {
-      await fetch(
+      const res = await fetch(
         "/api/channel/addMessageToChannel/" + currentChannel._id,
 
         {
@@ -71,17 +71,20 @@ export default function Chat() {
           headers: { "Content-Type": "application/json" },
         }
       );
+      const data = await res.json();
+
+      socket.current.emit("sendMessage", {
+        senderId: user._id,
+        roomId: currentChannel._id,
+        message: data.message,
+      });
     } catch (error) {
       console.log(error);
     }
   };
   return (
     <div className="chat">
-      <Topbar
-        showSidebar={showSidebar}
-        setShowSidebar={setShowSidebar}
-        currentChannel={currentChannel}
-      />
+      <Topbar />
 
       <Sidebar
         currentChannel={currentChannel}
@@ -97,13 +100,18 @@ export default function Chat() {
             </div>
           ))}
       </div>
-
-      <form action="" onSubmit={handleSumbit}>
-        <div className="group">
-          <input type="text" name="message" placeholder="Type a message here" />
-          <button type="submit">Send</button>
-        </div>
-      </form>
+      <div className="form-container">
+        <form action="" onSubmit={handleSumbit}>
+          <div className="group">
+            <input
+              type="text"
+              name="message"
+              placeholder="Type a message here"
+            />
+            <button type="submit">Send</button>
+          </div>
+        </form>
+      </div>
     </div>
   );
 }
