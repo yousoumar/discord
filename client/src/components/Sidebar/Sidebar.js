@@ -4,18 +4,17 @@ import { UserContext } from "../../contexts/UserContextProvider";
 import ChannelList from "../ChannelList/ChannelList";
 import Member from "../Member/Member";
 import "./Sidebar.scss";
-export default function Sidebar({ currentChannel, showSidebar }) {
+export default function Sidebar({ currentChannel, showSidebar, socket }) {
   const [showChannels, setShowChannels] = useState(false);
   const [currentChannelMembers, setCurrentChannelMembers] = useState([]);
   const { user } = useContext(UserContext);
-  console.log(user);
+
   useEffect(() => {
     const fetchData = async () => {
       const res = await fetch(
         "/api/channel/getChannelMembers/" + currentChannel._id
       );
       const data = await res.json();
-      console.log(data.members);
       setCurrentChannelMembers(data.members);
     };
     if (currentChannel) {
@@ -37,7 +36,7 @@ export default function Sidebar({ currentChannel, showSidebar }) {
       </div>
       {showChannels ? (
         <div className="body">
-          <ChannelList setShowChannels={setShowChannels} />
+          <ChannelList setShowChannels={setShowChannels} socket={socket} />
         </div>
       ) : (
         <div className="body">

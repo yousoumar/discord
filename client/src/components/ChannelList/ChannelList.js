@@ -1,13 +1,15 @@
 import { useState, useEffect, useContext } from "react";
 import { ChatContext } from "../../contexts/ChatContextProvider";
+import { UserContext } from "../../contexts/UserContextProvider";
 
 import "./ChannelList.scss";
-export default function ChannelList({ setShowChannels }) {
+export default function ChannelList({ setShowChannels, socket }) {
   const [channels, setChannels] = useState([]);
   const [loading, setLoading] = useState(true);
+  const { user } = useContext(UserContext);
+  const { currentChannel, setCurrentChannel, setShowSidebar } =
+    useContext(ChatContext);
 
-  const { setCurrentChannel, setShowSidebar } = useContext(ChatContext);
-  console.log(setCurrentChannel);
   useEffect(() => {
     const fetchChannels = async () => {
       const res = await fetch("/api/channel/getChannels");
@@ -28,6 +30,10 @@ export default function ChannelList({ setShowChannels }) {
           key={c._id}
           onClick={() => {
             fetch("/api/channel/join/" + c._id, { method: "PUT" });
+            socket.current.emit("removeUser", {
+              userId: user._id,
+              roomId: currentChannel._id,
+            });
             setCurrentChannel(c);
             setShowSidebar(false);
             setShowChannels(false);
