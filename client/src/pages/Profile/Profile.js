@@ -5,8 +5,10 @@ import logo from "../../assets/logo.svg";
 
 import "./Profile.scss";
 import DeleteProfile from "./components/DeleteProfile";
+import { useState } from "react";
 
 export default function Profile({ user, setUser, history }) {
+  const [error, setError] = useState(false);
   return (
     <div className="profile">
       <header className="header">
@@ -26,7 +28,16 @@ export default function Profile({ user, setUser, history }) {
           >
             Logout
           </Link>
-          <Link to="/" className="button primary">
+          <Link
+            to="/"
+            className="button primary"
+            onClick={(e) => {
+              if (!user.name) {
+                setError(true);
+                e.preventDefault();
+              }
+            }}
+          >
             Join the chat
           </Link>
         </div>
@@ -35,6 +46,11 @@ export default function Profile({ user, setUser, history }) {
       <main>
         <div>
           <EditInfo user={user} setUser={setUser} />
+          {error && (
+            <p className="error">
+              You have to set a name before joining the chat
+            </p>
+          )}
         </div>
         <div>
           <Password user={user} setUser={setUser} />
