@@ -22,10 +22,11 @@
     button {
       display: flex;
       align-items: center;
-      gap: 1rem;
+      gap: 0.5rem;
       font-weight: bold;
       img {
-        width: 1rem;
+        width: 0.5rem;
+        margin-top: 0.2rem;
       }
     }
   }
@@ -52,7 +53,7 @@
     background: #0b090c;
   }
 
-  @media all and (min-width: 700px) {
+  @media all and (min-width: 800px) {
     &,
     &.show {
       width: 324px;
