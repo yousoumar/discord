@@ -1,8 +1,8 @@
 import "./Member.scss";
 
-export default function Member({ member, hideName }) {
+export default function Member({ member, hideName, online }) {
   return (
-    <div className="member">
+    <div className={online ? "member online" : "member"}>
       <img
         src={
           member.picture

@@ -15,18 +15,14 @@ const removeUser = (socketId) => {
   users = users.filter((user) => user.socketId !== socketId);
 };
 
-const getUser = (userId) => {
-  return users.find((user) => user.userId === userId);
-};
-
 io.on("connection", (socket) => {
   console.log("a user connected.");
 
   socket.on("addUser", ({ user, roomId }) => {
     addUser(user, roomId, socket.id);
     socket.join(roomId);
-
     io.to(roomId).emit("getUsers", users);
+    io.to(roomId).emit("addUser", user);
   });
 
   socket.on("removeUser", ({ roomId }) => {

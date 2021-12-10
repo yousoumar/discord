@@ -11,8 +11,14 @@ import Member from "../../components/Member/Member";
 import { useUserContext } from "../../contexts/UserContextProvider";
 
 export default function Chat() {
-  const { currentChannel, setCurrentChannel, showSidebar, socket } =
-    useChatContext();
+  const {
+    currentChannel,
+    setCurrentChannel,
+    socket,
+    setCurrentChannelOnlineMembers,
+    currentChannelMembers,
+    setCurrentChannelMembers,
+  } = useChatContext();
   const { user } = useUserContext();
   const [messages, setMessages] = useState([]);
   const chatBoxRef = useRef();
@@ -55,9 +61,19 @@ export default function Chat() {
       user,
       roomId: currentChannel._id,
     });
-    socket.current.on("getUsers", (users) => {
-      console.log(users.filter((user) => user.roomId === currentChannel._id));
+    socket.current.on("addUser", (user) => {
+      if (!currentChannelMembers.some((u) => u._id === user._id)) {
+        setCurrentChannelMembers([...currentChannelMembers, user]);
+      }
     });
+
+    socket.current.on("getUsers", (users) => {
+      let filtredUsers = users.filter(
+        (user) => user.roomId === currentChannel._id
+      );
+      setCurrentChannelOnlineMembers(filtredUsers.map((user) => user.user));
+    });
+
     socket.current.on("getMessage", (data) => {
       setMessages([...messages, data.message]);
     });
@@ -68,7 +84,15 @@ export default function Chat() {
         roomId: currentChannel._id,
       });
     };
-  }, [currentChannel, user, messages, socket]);
+  }, [
+    currentChannel,
+    user,
+    messages,
+    socket,
+    setCurrentChannelOnlineMembers,
+    currentChannelMembers,
+    setCurrentChannelMembers,
+  ]);
 
   const handleSumbit = async (e) => {
     e.preventDefault();
@@ -96,15 +120,11 @@ export default function Chat() {
       console.log(error);
     }
   };
+
   return (
     <div className="chat">
       <Topbar />
-
-      <Sidebar
-        currentChannel={currentChannel}
-        showSidebar={showSidebar}
-        socket={socket}
-      />
+      <Sidebar />
       <div className="messages" ref={chatBoxRef}>
         {messages &&
           messages.map((m) => (

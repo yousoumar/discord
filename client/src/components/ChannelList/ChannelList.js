@@ -3,7 +3,7 @@ import { useChatContext } from "../../contexts/ChatContextProvider";
 import { useUserContext } from "../../contexts/UserContextProvider";
 
 import "./ChannelList.scss";
-export default function ChannelList({ setShowChannels, socket }) {
+export default function ChannelList() {
   const [loading, setLoading] = useState(true);
   const { user } = useUserContext();
   const {
@@ -12,6 +12,8 @@ export default function ChannelList({ setShowChannels, socket }) {
     setShowSidebar,
     setChannels,
     channels,
+    socket,
+    setShowChannels,
   } = useChatContext();
 
   useEffect(() => {

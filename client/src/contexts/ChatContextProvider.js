@@ -11,6 +11,8 @@ export default function ChatContextProvider({ children }) {
   const [currentChannelMembers, setCurrentChannelMembers] = useState([]);
   const [channels, setChannels] = useState([]);
   const [showChannels, setShowChannels] = useState(false);
+  const [currentChannelOnlineMembers, setCurrentChannelOnlineMembers] =
+    useState([]);
   const socket = useRef();
   return (
     <ChatContext.Provider
@@ -26,6 +28,8 @@ export default function ChatContextProvider({ children }) {
         setChannels,
         showChannels,
         setShowChannels,
+        currentChannelOnlineMembers,
+        setCurrentChannelOnlineMembers,
       }}
     >
       {children}

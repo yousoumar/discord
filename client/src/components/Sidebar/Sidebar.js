@@ -12,9 +12,9 @@ export default function Sidebar() {
     currentChannelMembers,
     setCurrentChannelMembers,
     showSidebar,
-    socket,
     showChannels,
     setShowChannels,
+    currentChannelOnlineMembers,
   } = useChatContext();
 
   useEffect(() => {
@@ -44,7 +44,7 @@ export default function Sidebar() {
       </div>
       {showChannels ? (
         <div className="body">
-          <ChannelList setShowChannels={setShowChannels} socket={socket} />
+          <ChannelList />
         </div>
       ) : (
         <div className="body">
@@ -56,7 +56,13 @@ export default function Sidebar() {
             <h1>Members</h1>
             <div className="members">
               {currentChannelMembers.map((m) => (
-                <Member member={m} key={m._id} />
+                <Member
+                  member={m}
+                  key={m._id}
+                  online={currentChannelOnlineMembers.some(
+                    (o) => m._id === o._id
+                  )}
+                />
               ))}
             </div>
           </div>
