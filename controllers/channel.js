@@ -97,7 +97,7 @@ const joinChannel = async (req, res) => {
     await req.user.save();
     await channel.save();
 
-    res.status(200).json({ message: "channel joined with succes" });
+    res.status(200).json(channel);
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: error.message });
