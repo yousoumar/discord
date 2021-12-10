@@ -24,13 +24,6 @@ const schema = Schema(
   { timestamps: true }
 );
 
-schema.pre("save", function (next) {
-  if (!this.members.includes(this.ownerId) && this.name !== "Welcome") {
-    this.members.push(this.ownerId);
-  }
-
-  next();
-});
 const Channel = mongoose.model("channel", schema);
 
 module.exports = Channel;
