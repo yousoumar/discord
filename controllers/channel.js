@@ -127,8 +127,9 @@ const getChannelMessages = async (req, res) => {
     }
 
     const messages = await Promise.all(
-      channel.messages.map((id) => Message.findById(id))
+      channel.messages.map((id) => Message.findById(id).populate("owner"))
     );
+
     res.status(200).json({ messages: messages });
   } catch (error) {
     console.log(error);
@@ -147,13 +148,14 @@ const addMessageToChannel = async (req, res) => {
       return res.status(400).json({ message: "inexistente channel" });
     }
     const message = new Message({
-      owner: req.user,
+      owner: req.user._id,
       text: req.body.text,
       channelId,
     });
     await message.save();
     channel.messages.push(message._id);
     await channel.save();
+    message.owner = req.user;
     res.status(200).json({ message: message });
   } catch (error) {
     console.log(error);

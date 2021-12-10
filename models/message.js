@@ -1,15 +1,12 @@
 const mongoose = require("mongoose");
-const schema = mongoose.Schema(
+const Schema = mongoose.Schema;
+const schema = Schema(
   {
     text: {
       type: String,
       default: "",
     },
-
-    owner: {
-      type: Object,
-      required: [true, "A message should have a owner"],
-    },
+    owner: { type: Schema.Types.ObjectId, ref: "user" },
     channelId: {
       type: String,
       required: [true, "A message should be in a channel"],

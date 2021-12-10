@@ -19,9 +19,15 @@
     padding: 1rem;
     border-radius: 1rem;
     margin-top: 1rem;
+    display: grid;
 
     .text {
       margin-top: 0.5rem;
+    }
+
+    .date {
+      margin-left: auto;
+      font-size: 0.8rem;
     }
   }
 

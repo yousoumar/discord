@@ -2,6 +2,7 @@ import "./Chat.scss";
 
 import { useEffect, useState, useRef } from "react";
 import { io } from "socket.io-client";
+import { format } from "timeago.js";
 
 import Sidebar from "../../components/Sidebar/Sidebar";
 import Topbar from "../../components/Topbar/Topbar";
@@ -22,17 +23,25 @@ export default function Chat() {
         if (!currentChannel) {
           const res = await fetch("/api/channel/");
           const data = await res.json();
-          setCurrentChannel(data.channel);
+          if (res.ok) {
+            setCurrentChannel(data.channel);
+          } else {
+            throw Error(data.message);
+          }
         } else {
           const res = await fetch(
             "/api/channel/getChannelMessages/" + currentChannel._id
           );
           const data = await res.json();
-
-          setMessages(data.messages);
+          if (res.ok) {
+            console.log(data.messages);
+            setMessages(data.messages);
+          } else {
+            throw Error(data.message);
+          }
         }
       } catch (error) {
-        console.log(error);
+        console.log(error.message);
       }
     };
     fetchData();
@@ -102,6 +111,7 @@ export default function Chat() {
             <div className="message" key={m._id}>
               <Member member={m.owner} />
               <div className="text">{m.text}</div>
+              <p className="date">{format(m.createdAt)}</p>
             </div>
           ))}
       </div>
