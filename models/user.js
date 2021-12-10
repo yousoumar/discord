@@ -1,8 +1,8 @@
 const mongoose = require("mongoose");
 const { isEmail } = require("validator");
 const bcrypt = require("bcrypt");
-
-const schema = mongoose.Schema(
+const Schema = mongoose.Schema;
+const schema = Schema(
   {
     email: {
       type: String,
@@ -40,6 +40,10 @@ const schema = mongoose.Schema(
       type: Date,
     },
     channels: {
+      type: Array,
+      default: [],
+    },
+    messages: {
       type: Array,
       default: [],
     },

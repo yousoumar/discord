@@ -4,6 +4,7 @@ const bcrypt = require("bcrypt");
 const crypto = require("crypto");
 const sendEmail = require("../utils/sendEmail");
 const handleAuthErrors = require("../utils/handleAuthErrors");
+const Channel = require("../models/channel");
 
 /* ---------------------------- getUser ---------------------------------- */
 
@@ -37,6 +38,15 @@ const deleteProfile = async (req, res) => {
   try {
     const valid = await bcrypt.compare(password, user.password);
     if (valid) {
+      console.log(user.messages);
+      await Message.deleteMany({ owner: user._id.toString() });
+      await Promise.all(
+        user.channels.map((id) =>
+          Channel.findByIdAndUpdate(id.toString(), {
+            $pull: { messages: { $in: user.messages }, members: user._id },
+          })
+        )
+      );
       await User.findByIdAndRemove(user._id);
       res.cookie("token", "", { maxAge: 1 });
       const message = `

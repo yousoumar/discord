@@ -11,18 +11,9 @@ const signup = async (req, res) => {
   const { email, password } = req.body;
   try {
     const user = User({ email, password });
-    let welcome = await Channel.findOne({ name: "Welcome" });
-    if (!welcome) {
-      welcome = await Channel.create({
-        name: "Welcome",
-        description:
-          "This is Welcome channel, the channel where everyone can get in",
-        ownerId: user._id,
-      });
-    } else {
-      welcome.members.push(user._id.toString());
-    }
-    user.channels.push(welcome._id.toString());
+    const welcome = await Channel.findOne({ name: "Welcome" });
+    welcome.members.push(user._id);
+    user.channels.push(welcome._id);
     await user.save();
     await welcome.save();
     const token = createToken(user._id);

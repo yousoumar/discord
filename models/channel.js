@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
-const schema = mongoose.Schema(
+const Schema = mongoose.Schema;
+const schema = Schema(
   {
     name: {
       type: String,
@@ -11,16 +12,12 @@ const schema = mongoose.Schema(
       type: String,
       default: "",
     },
-    members: {
-      type: Array,
-      default: [],
-    },
-    messages: {
-      type: Array,
-      default: [],
-    },
+
+    members: [{ type: Schema.Types.ObjectId, ref: "user" }],
+    messages: [{ type: Schema.Types.ObjectId, ref: "message" }],
     ownerId: {
-      type: String,
+      type: Schema.Types.ObjectId,
+      ref: "user",
       required: [true, "A channel should have a owner"],
     },
   },
@@ -28,7 +25,7 @@ const schema = mongoose.Schema(
 );
 
 schema.pre("save", function (next) {
-  if (!this.members.includes(this.ownerId)) {
+  if (!this.members.includes(this.ownerId) && this.name !== "Welcome") {
     this.members.push(this.ownerId);
   }
 

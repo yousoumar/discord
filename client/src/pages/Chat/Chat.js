@@ -2,7 +2,7 @@ import "./Chat.scss";
 
 import { useEffect, useState, useRef } from "react";
 import { io } from "socket.io-client";
-import { format } from "timeago.js";
+import TimeAgo from "timeago-react";
 
 import Sidebar from "../../components/Sidebar/Sidebar";
 import Topbar from "../../components/Topbar/Topbar";
@@ -111,7 +111,9 @@ export default function Chat() {
             <div className="message" key={m._id}>
               <Member member={m.owner} />
               <div className="text">{m.text}</div>
-              <p className="date">{format(m.createdAt)}</p>
+              <p className="date">
+                <TimeAgo datetime={m.createdAt} opts={{ minInterval: 60 }} />
+              </p>
             </div>
           ))}
       </div>

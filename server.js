@@ -7,12 +7,14 @@ const cookieParser = require("cookie-parser");
 const authRouter = require("./routes/auth");
 const userRouter = require("./routes/user");
 const channelRouter = require("./routes/channel");
+const createWelcomeChannel = require("./middlewares/createWelcomeChannel");
 const app = express();
 
 app.use(express.static(path.join(__dirname, "/client/build")));
 app.use(express.json());
 app.use(cookieParser());
 app.use(morgan("dev"));
+app.use(createWelcomeChannel);
 
 app.use("/api/auth/", authRouter);
 app.use("/api/user/", userRouter);

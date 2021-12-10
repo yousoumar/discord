@@ -127,7 +127,9 @@ const getChannelMessages = async (req, res) => {
     }
 
     const messages = await Promise.all(
-      channel.messages.map((id) => Message.findById(id).populate("owner"))
+      channel.messages.map((id) =>
+        Message.findById(id.toString()).populate("owner")
+      )
     );
 
     res.status(200).json({ messages: messages });
@@ -153,7 +155,9 @@ const addMessageToChannel = async (req, res) => {
       channelId,
     });
     await message.save();
-    channel.messages.push(message._id);
+    req.user.messages.push(message._id.toString());
+    await req.user.save();
+    channel.messages.push(message._id.toString());
     await channel.save();
     message.owner = req.user;
     res.status(200).json({ message: message });
