@@ -2,14 +2,8 @@ import { useState } from "react";
 import { useChatContext } from "../../contexts/ChatContextProvider";
 import "./Topbar.scss";
 export default function Topbar() {
-  const {
-    showSidebar,
-    setShowSidebar,
-    currentChannel,
-    channels,
-    setChannels,
-    setShowChannels,
-  } = useChatContext();
+  const { showSidebar, setShowSidebar, currentChannel, channels, setChannels } =
+    useChatContext();
   const [showForm, setShowForm] = useState(false);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -39,7 +33,6 @@ export default function Topbar() {
       if (res.ok) {
         setChannels([...channels, data]);
         setLoading(false);
-        setShowChannels(true);
         setShowForm(false);
         setShowSidebar(true);
       } else {
