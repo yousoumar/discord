@@ -43,7 +43,10 @@ const deleteProfile = async (req, res) => {
       await Promise.all(
         user.channels.map((id) =>
           Channel.findByIdAndUpdate(id.toString(), {
-            $pull: { messages: { $in: user.messages }, members: user._id },
+            $pull: {
+              messages: { $in: user.messages },
+              members: user._id,
+            },
           })
         )
       );

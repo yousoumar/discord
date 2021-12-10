@@ -33,6 +33,8 @@ const createChannel = async (req, res) => {
   try {
     const channel = Channel({ name, description, ownerId: req.user._id });
     const storedChannel = await channel.save();
+    req.user.channels.push(channel._id);
+    await req.user.save();
     res.status(200).json(storedChannel);
   } catch (error) {
     console.log(error);
