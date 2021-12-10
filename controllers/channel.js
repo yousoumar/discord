@@ -92,7 +92,9 @@ const joinChannel = async (req, res) => {
       return res.status(403).json({ message: "channel alrady joined" });
     }
 
-    channel.members.push(req.user._id.toString());
+    channel.members.push(req.user._id);
+    req.user.channels.push(channel._id);
+    await req.user.save();
     await channel.save();
 
     res.status(200).json({ message: "channel joined with succes" });
