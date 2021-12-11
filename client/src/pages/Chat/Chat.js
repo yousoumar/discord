@@ -1,7 +1,5 @@
 import "./Chat.scss";
 
-import { useEffect, useState, useRef } from "react";
-import { io } from "socket.io-client";
 import TimeAgo from "timeago-react";
 
 import Sidebar from "../../components/Sidebar/Sidebar";
@@ -11,90 +9,9 @@ import Member from "../../components/Member/Member";
 import { useUserContext } from "../../contexts/UserContextProvider";
 
 export default function Chat() {
-  const {
-    currentChannel,
-    setCurrentChannel,
-    socket,
-    setCurrentChannelOnlineMembers,
-    currentChannelMembers,
-    setCurrentChannelMembers,
-  } = useChatContext();
+  const { currentChannel, currentChannelMessages, socket, chatBoxRef } =
+    useChatContext();
   const { user } = useUserContext();
-  const [messages, setMessages] = useState([]);
-  const chatBoxRef = useRef();
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        if (!currentChannel) {
-          const res = await fetch("/api/channel/");
-          const data = await res.json();
-          if (res.ok) {
-            setCurrentChannel(data.channel);
-          } else {
-            throw Error(data.message);
-          }
-        } else {
-          const res = await fetch(
-            "/api/channel/getChannelMessages/" + currentChannel._id
-          );
-          const data = await res.json();
-          if (res.ok) {
-            console.log(data.messages);
-            setMessages(data.messages);
-          } else {
-            throw Error(data.message);
-          }
-        }
-      } catch (error) {
-        console.log(error.message);
-      }
-    };
-    fetchData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentChannel]);
-
-  useEffect(() => {
-    socket.current = io(process.env.REACT_APP_API_URL, {
-      transports: ["websocket"],
-    });
-    if (!currentChannel) return;
-    socket.current.emit("addUser", {
-      user,
-      roomId: currentChannel._id,
-    });
-    socket.current.on("addUser", (user) => {
-      if (!currentChannelMembers.some((u) => u._id === user._id)) {
-        setCurrentChannelMembers([...currentChannelMembers, user]);
-      }
-    });
-
-    socket.current.on("getUsers", (users) => {
-      let filtredUsers = users.filter(
-        (user) => user.roomId === currentChannel._id
-      );
-      setCurrentChannelOnlineMembers(filtredUsers.map((user) => user.user));
-    });
-
-    socket.current.on("getMessage", (data) => {
-      setMessages([...messages, data.message]);
-    });
-    chatBoxRef.current.scrollTop = chatBoxRef.current.scrollHeight;
-    return () => {
-      socket.current.emit("removeUser", {
-        userId: user._id,
-        roomId: currentChannel._id,
-      });
-    };
-  }, [
-    currentChannel,
-    user,
-    messages,
-    socket,
-    setCurrentChannelOnlineMembers,
-    currentChannelMembers,
-    setCurrentChannelMembers,
-  ]);
 
   const handleSumbit = async (e) => {
     e.preventDefault();
@@ -128,16 +45,15 @@ export default function Chat() {
       <Topbar />
       <Sidebar />
       <div className="messages" ref={chatBoxRef}>
-        {messages &&
-          messages.map((m) => (
-            <div className="message" key={m._id}>
-              <Member member={m.owner} />
-              <div className="text">{m.text}</div>
-              <p className="date">
-                <TimeAgo datetime={m.createdAt} opts={{ minInterval: 60 }} />
-              </p>
-            </div>
-          ))}
+        {currentChannelMessages.map((m) => (
+          <div className="message" key={m._id}>
+            <Member member={m.owner} />
+            <div className="text">{m.text}</div>
+            <p className="date">
+              <TimeAgo datetime={m.createdAt} opts={{ minInterval: 60 }} />
+            </p>
+          </div>
+        ))}
       </div>
 
       <form action="" onSubmit={handleSumbit}>
