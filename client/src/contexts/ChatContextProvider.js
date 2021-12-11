@@ -51,7 +51,6 @@ export default function ChatContextProvider({ children }) {
       }
     };
     fetchData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [channel]);
 
   useEffect(() => {
