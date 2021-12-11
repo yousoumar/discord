@@ -8,6 +8,10 @@
   color: inherit;
   font: inherit;
 }
+html,
+body {
+  overflow-x: hidden;
+}
 body {
   font-family: sans-serif;
   background: #252329;
@@ -73,7 +77,6 @@ form {
     display: block;
     background-color: transparent;
     outline: none;
-    min-width: 20rem;
     width: 100%;
     padding: 0.5rem;
     border-radius: 8px;
