@@ -1,5 +1,6 @@
 import "./Chat.scss";
 
+import { useRef, useEffect } from "react";
 import TimeAgo from "timeago-react";
 
 import Sidebar from "../../components/Sidebar/Sidebar";
@@ -9,8 +10,13 @@ import Member from "../../components/Member/Member";
 import { useUserContext } from "../../contexts/UserContextProvider";
 
 export default function Chat() {
-  const { channel, channelMessages, socket, chatBoxRef } = useChatContext();
+  const { channel, channelMessages, socket } = useChatContext();
   const { user } = useUserContext();
+  const chatBoxRef = useRef();
+
+  useEffect(() => {
+    chatBoxRef.current.scrollTop = chatBoxRef.current.scrollHeight;
+  }, [channelMessages]);
 
   const handleSumbit = async (e) => {
     e.preventDefault();

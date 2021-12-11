@@ -21,7 +21,6 @@ export default function ChatContextProvider({ children }) {
   const { user } = useUserContext();
 
   const socket = useRef();
-  const chatBoxRef = useRef();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -74,11 +73,9 @@ export default function ChatContextProvider({ children }) {
     });
 
     socket.current.on("getMessage", (data) => {
-      channelMessages([...channelMessages, data.message]);
+      setChannelMessages([...channelMessages, data.message]);
     });
-    if (chatBoxRef.current) {
-      chatBoxRef.current.scrollTop = chatBoxRef.current.scrollHeight;
-    }
+
     return () => {
       socket.current.emit("removeUser", {
         userId: user._id,
@@ -92,7 +89,6 @@ export default function ChatContextProvider({ children }) {
     setChannelOnlineMembers,
     channelMembers,
     setChannelMembers,
-    chatBoxRef,
     channelMessages,
   ]);
 
