@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useChatContext } from "../../contexts/ChatContextProvider";
 import "./Topbar.scss";
 export default function Topbar() {
-  const { showSidebar, setShowSidebar, currentChannel, channels, setChannels } =
+  const { showSidebar, setShowSidebar, channel, channels, setChannels } =
     useChatContext();
   const [showForm, setShowForm] = useState(false);
   const [error, setError] = useState(null);
@@ -45,7 +45,7 @@ export default function Topbar() {
   };
   return (
     <div className="topbar">
-      <h1>{currentChannel && currentChannel.name}</h1>
+      <h1>{channel && channel.name}</h1>
       <div className="btns">
         <button
           onClick={() => {

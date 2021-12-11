@@ -7,8 +7,8 @@ export default function ChannelList() {
   const [loading, setLoading] = useState(true);
   const { user } = useUserContext();
   const {
-    currentChannel,
-    setCurrentChannel,
+    channel,
+    setChannel,
     setShowSidebar,
     setChannels,
     channels,
@@ -32,7 +32,7 @@ export default function ChannelList() {
       const res = await fetch("/api/channel/join/" + c._id, { method: "PUT" });
       socket.current.emit("removeUser", {
         userId: user._id,
-        roomId: currentChannel._id,
+        roomId: channel._id,
       });
       if (res.ok) {
         const data = await res.json();
@@ -41,7 +41,7 @@ export default function ChannelList() {
       }
     }
 
-    setCurrentChannel(c);
+    setChannel(c);
     setShowSidebar(false);
     setShowChannels(false);
   };

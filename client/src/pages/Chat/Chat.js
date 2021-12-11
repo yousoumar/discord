@@ -9,8 +9,7 @@ import Member from "../../components/Member/Member";
 import { useUserContext } from "../../contexts/UserContextProvider";
 
 export default function Chat() {
-  const { currentChannel, currentChannelMessages, socket, chatBoxRef } =
-    useChatContext();
+  const { channel, channelMessages, socket, chatBoxRef } = useChatContext();
   const { user } = useUserContext();
 
   const handleSumbit = async (e) => {
@@ -20,7 +19,7 @@ export default function Chat() {
 
     try {
       const res = await fetch(
-        "/api/channel/addMessageToChannel/" + currentChannel._id,
+        "/api/channel/addMessageToChannel/" + channel._id,
 
         {
           method: "POST",
@@ -32,7 +31,7 @@ export default function Chat() {
 
       socket.current.emit("sendMessage", {
         senderId: user._id,
-        roomId: currentChannel._id,
+        roomId: channel._id,
         message: data.message,
       });
     } catch (error) {
@@ -45,7 +44,7 @@ export default function Chat() {
       <Topbar />
       <Sidebar />
       <div className="messages" ref={chatBoxRef}>
-        {currentChannelMessages.map((m) => (
+        {channelMessages.map((m) => (
           <div className="message" key={m._id}>
             <Member member={m.owner} />
             <div className="text">{m.text}</div>

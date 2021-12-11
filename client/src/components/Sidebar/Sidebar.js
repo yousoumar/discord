@@ -8,27 +8,25 @@ import "./Sidebar.scss";
 export default function Sidebar() {
   const { user } = useUserContext();
   const {
-    currentChannel,
-    currentChannelMembers,
-    setCurrentChannelMembers,
+    channel,
+    channelMembers,
+    setChannelMembers,
     showSidebar,
     showChannels,
     setShowChannels,
-    currentChannelOnlineMembers,
+    channelOnlineMembers,
   } = useChatContext();
 
   useEffect(() => {
     const fetchData = async () => {
-      const res = await fetch(
-        "/api/channel/getChannelMembers/" + currentChannel._id
-      );
+      const res = await fetch("/api/channel/getChannelMembers/" + channel._id);
       const data = await res.json();
-      setCurrentChannelMembers(data.members);
+      setChannelMembers(data.members);
     };
-    if (currentChannel) {
+    if (channel) {
       fetchData();
     }
-  }, [currentChannel, setCurrentChannelMembers]);
+  }, [channel, setChannelMembers]);
 
   return (
     <nav className={showSidebar ? "sidebar show" : "sidebar"}>
@@ -49,19 +47,17 @@ export default function Sidebar() {
       ) : (
         <div className="body">
           <div className="current-channel">
-            <h1>{currentChannel && currentChannel.name} </h1>
-            <p>{currentChannel && currentChannel.description}</p>
+            <h1>{channel && channel.name} </h1>
+            <p>{channel && channel.description}</p>
           </div>
           <div className="current-channel-members">
             <h1>Members</h1>
             <div className="members">
-              {currentChannelMembers.map((m) => (
+              {channelMembers.map((m) => (
                 <Member
                   member={m}
                   key={m._id}
-                  online={currentChannelOnlineMembers.some(
-                    (o) => m._id === o._id
-                  )}
+                  online={channelOnlineMembers.some((o) => m._id === o._id)}
                 />
               ))}
             </div>

@@ -2,7 +2,9 @@ import { createContext, useState, useRef, useContext, useEffect } from "react";
 import { io } from "socket.io-client";
 
 import { useUserContext } from "./UserContextProvider";
+
 const ChatContext = createContext();
+
 export const useChatContext = () => {
   return useContext(ChatContext);
 };
@@ -13,34 +15,33 @@ export default function ChatContextProvider({ children }) {
   const socket = useRef();
   const chatBoxRef = useRef();
 
-  const [currentChannel, setCurrentChannel] = useState(null);
+  const [channel, setChannel] = useState(null);
   const [showSidebar, setShowSidebar] = useState(false);
-  const [currentChannelMembers, setCurrentChannelMembers] = useState([]);
-  const [currentChannelMessages, setCurrentChannelMessages] = useState([]);
+  const [channelMembers, setChannelMembers] = useState([]);
+  const [channelMessages, setChannelMessages] = useState([]);
   const [channels, setChannels] = useState([]);
   const [showChannels, setShowChannels] = useState(false);
-  const [currentChannelOnlineMembers, setCurrentChannelOnlineMembers] =
-    useState([]);
+  const [channelOnlineMembers, setChannelOnlineMembers] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        if (!currentChannel) {
+        if (!channel) {
           const res = await fetch("/api/channel/");
           const data = await res.json();
           if (res.ok) {
-            setCurrentChannel(data.channel);
+            setChannel(data.channel);
           } else {
             throw Error(data.message);
           }
         } else {
           const res = await fetch(
-            "/api/channel/getChannelMessages/" + currentChannel._id
+            "/api/channel/getChannelMessages/" + channel._id
           );
           const data = await res.json();
           if (res.ok) {
             console.log(data.messages);
-            setCurrentChannelMessages(data.messages);
+            setChannelMessages(data.messages);
           } else {
             throw Error(data.message);
           }
@@ -51,32 +52,30 @@ export default function ChatContextProvider({ children }) {
     };
     fetchData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentChannel]);
+  }, [channel]);
 
   useEffect(() => {
     socket.current = io(process.env.REACT_APP_API_URL, {
       transports: ["websocket"],
     });
-    if (!currentChannel) return;
+    if (!channel) return;
     socket.current.emit("addUser", {
       user,
-      roomId: currentChannel._id,
+      roomId: channel._id,
     });
     socket.current.on("addUser", (user) => {
-      if (!currentChannelMembers.some((u) => u._id === user._id)) {
-        setCurrentChannelMembers([...currentChannelMembers, user]);
+      if (!channelMembers.some((u) => u._id === user._id)) {
+        setChannelMembers([...channelMembers, user]);
       }
     });
 
     socket.current.on("getUsers", (users) => {
-      let filtredUsers = users.filter(
-        (user) => user.roomId === currentChannel._id
-      );
-      setCurrentChannelOnlineMembers(filtredUsers.map((user) => user.user));
+      let filtredUsers = users.filter((user) => user.roomId === channel._id);
+      setChannelOnlineMembers(filtredUsers.map((user) => user.user));
     });
 
     socket.current.on("getMessage", (data) => {
-      currentChannelMessages([...currentChannelMessages, data.message]);
+      channelMessages([...channelMessages, data.message]);
     });
     if (chatBoxRef.current) {
       chatBoxRef.current.scrollTop = chatBoxRef.current.scrollHeight;
@@ -84,38 +83,38 @@ export default function ChatContextProvider({ children }) {
     return () => {
       socket.current.emit("removeUser", {
         userId: user._id,
-        roomId: currentChannel._id,
+        roomId: channel._id,
       });
     };
   }, [
-    currentChannel,
+    channel,
     user,
     socket,
-    setCurrentChannelOnlineMembers,
-    currentChannelMembers,
-    setCurrentChannelMembers,
+    setChannelOnlineMembers,
+    channelMembers,
+    setChannelMembers,
     chatBoxRef,
-    currentChannelMessages,
+    channelMessages,
   ]);
 
   return (
     <ChatContext.Provider
       value={{
-        currentChannel,
-        setCurrentChannel,
+        channel,
+        setChannel,
         showSidebar,
         setShowSidebar,
-        currentChannelMembers,
-        setCurrentChannelMembers,
+        channelMembers,
+        setChannelMembers,
         socket,
         channels,
         setChannels,
         showChannels,
         setShowChannels,
-        currentChannelOnlineMembers,
-        setCurrentChannelOnlineMembers,
-        currentChannelMessages,
-        setCurrentChannelMessages,
+        channelOnlineMembers,
+        setChannelOnlineMembers,
+        channelMessages,
+        setChannelMessages,
       }}
     >
       {children}
