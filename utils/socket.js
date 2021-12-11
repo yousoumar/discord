@@ -12,18 +12,27 @@ const initSocket = (io) => {
 
   io.on("connection", (socket) => {
     console.log("a user connected.");
+    let currentRoom;
 
     socket.on("addUser", ({ user, roomId }) => {
       addUser(user, roomId, socket.id);
+      currentRoom = roomId;
       socket.join(roomId);
-      io.to(roomId).emit("getUsers", users);
+      io.to(roomId).emit(
+        "getUsers",
+        users.filter((user) => user.roomId === roomId).map((user) => user.user)
+      );
       io.to(roomId).emit("addUser", user);
     });
 
     socket.on("removeUser", ({ roomId }) => {
+      currentRoom = roomId;
       removeUser(socket.id);
       socket.leave(roomId);
-      io.to(roomId).emit("getUsers", users);
+      io.to(roomId).emit(
+        "getUsers",
+        users.filter((user) => user.roomId === roomId).map((user) => user.user)
+      );
     });
 
     socket.on("sendMessage", ({ senderId, roomId, message }) => {
@@ -35,8 +44,13 @@ const initSocket = (io) => {
 
     socket.on("disconnect", () => {
       console.log("a user disconnected!");
+      io.to(currentRoom).emit(
+        "getUsers",
+        users
+          .filter((user) => user.roomId === currentRoom)
+          .map((user) => user.user)
+      );
       removeUser(socket.id);
-      io.emit("getUsers", users);
     });
   });
 };

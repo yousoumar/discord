@@ -39,7 +39,6 @@ export default function ChatContextProvider({ children }) {
           );
           const data = await res.json();
           if (res.ok) {
-            console.log(data.messages);
             setChannelMessages(data.messages);
           } else {
             throw Error(data.message);
@@ -68,8 +67,7 @@ export default function ChatContextProvider({ children }) {
     });
 
     socket.current.on("getUsers", (users) => {
-      let filtredUsers = users.filter((user) => user.roomId === channel._id);
-      setChannelOnlineMembers(filtredUsers.map((user) => user.user));
+      setChannelOnlineMembers(users);
     });
 
     socket.current.on("getMessage", (data) => {
