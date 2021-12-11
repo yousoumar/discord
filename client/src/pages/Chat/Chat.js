@@ -55,7 +55,9 @@ export default function Chat() {
   }, [currentChannel]);
 
   useEffect(() => {
-    socket.current = io("ws://localhost:8900");
+    socket.current = io(process.env.REACT_APP_API_URL, {
+      transports: ["websocket"],
+    });
     if (!currentChannel) return;
     socket.current.emit("addUser", {
       user,
