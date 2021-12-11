@@ -10,11 +10,6 @@ export const useChatContext = () => {
 };
 
 export default function ChatContextProvider({ children }) {
-  const { user } = useUserContext();
-
-  const socket = useRef();
-  const chatBoxRef = useRef();
-
   const [channel, setChannel] = useState(null);
   const [showSidebar, setShowSidebar] = useState(false);
   const [channelMembers, setChannelMembers] = useState([]);
@@ -22,6 +17,11 @@ export default function ChatContextProvider({ children }) {
   const [channels, setChannels] = useState([]);
   const [showChannels, setShowChannels] = useState(false);
   const [channelOnlineMembers, setChannelOnlineMembers] = useState([]);
+
+  const { user } = useUserContext();
+
+  const socket = useRef();
+  const chatBoxRef = useRef();
 
   useEffect(() => {
     const fetchData = async () => {
