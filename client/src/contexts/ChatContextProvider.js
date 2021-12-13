@@ -17,7 +17,6 @@ export default function ChatContextProvider({ children }) {
   const [channels, setChannels] = useState([]);
   const [showChannels, setShowChannels] = useState(false);
   const [channelOnlineMembers, setChannelOnlineMembers] = useState([]);
-
   const { user } = useUserContext();
 
   const socket = useRef();
@@ -70,10 +69,10 @@ export default function ChatContextProvider({ children }) {
       setChannelOnlineMembers(users);
     });
 
-    socket.current.on("getMessage", (data) => {
-      setChannelMessages([...channelMessages, data.message]);
+    socket.current.on("getMessage", (message) => {
+      setChannelMessages([...channelMessages, message]);
     });
-
+  
     return () => {
       socket.current.emit("removeUser", {
         userId: user._id,
@@ -88,6 +87,7 @@ export default function ChatContextProvider({ children }) {
     channelMembers,
     setChannelMembers,
     channelMessages,
+
   ]);
 
   return (

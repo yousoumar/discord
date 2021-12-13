@@ -1,6 +1,6 @@
 import "./Chat.scss";
 
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 import TimeAgo from "timeago-react";
 
 import Sidebar from "../../components/Sidebar/Sidebar";
@@ -10,6 +10,7 @@ import Member from "../../components/Member/Member";
 import { useUserContext } from "../../contexts/UserContextProvider";
 
 export default function Chat() {
+  const [writingUserName, setWritingUserName] = useState("");
   const { channel, channelMessages, socket } = useChatContext();
   const { user } = useUserContext();
   const chatBoxRef = useRef();
@@ -17,6 +18,19 @@ export default function Chat() {
   useEffect(() => {
     chatBoxRef.current.scrollTop = chatBoxRef.current.scrollHeight;
   }, [channelMessages]);
+
+  useEffect(() => {
+    setWritingUserName("");
+  }, [channel]);
+
+  useEffect(() => {
+    if (!socket.current) return;
+
+    socket.current.on("userWriting", (userName) => {
+      setWritingUserName(userName);
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [writingUserName, socket.current]);
 
   const handleSumbit = async (e) => {
     e.preventDefault();
@@ -36,7 +50,6 @@ export default function Chat() {
       const data = await res.json();
 
       socket.current.emit("sendMessage", {
-        senderId: user._id,
         roomId: channel._id,
         message: data.message,
       });
@@ -62,8 +75,27 @@ export default function Chat() {
       </div>
 
       <form action="" onSubmit={handleSumbit}>
+        {writingUserName && (
+          <p className="writing">{writingUserName} is writing...</p>
+        )}
         <div className="group">
-          <input type="text" name="message" placeholder="Type a message here" />
+          <input
+            type="text"
+            name="message"
+            placeholder="Type a message here"
+            onFocus={() => {
+              socket.current.emit("userWriting", {
+                userName: user.name,
+                roomId: channel._id,
+              });
+            }}
+            onBlur={() => {
+              socket.current.emit("userWriting", {
+                userName: "",
+                roomId: channel._id,
+              });
+            }}
+          />
           <button type="submit">Send</button>
         </div>
       </form>

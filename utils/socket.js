@@ -11,7 +11,6 @@ const initSocket = (io) => {
   };
 
   io.on("connection", (socket) => {
-    console.log("a user connected.");
     let currentRoom;
 
     socket.on("addUser", ({ user, roomId }) => {
@@ -35,15 +34,15 @@ const initSocket = (io) => {
       );
     });
 
-    socket.on("sendMessage", ({ senderId, roomId, message }) => {
-      io.to(roomId).emit("getMessage", {
-        senderId,
-        message,
-      });
+    socket.on("sendMessage", ({ roomId, message }) => {
+      io.to(roomId).emit("getMessage", message);
+    });
+
+    socket.on("userWriting", ({ roomId, userName }) => {
+      socket.broadcast.to(roomId).emit("userWriting", userName);
     });
 
     socket.on("disconnect", () => {
-      console.log("a user disconnected!");
       io.to(currentRoom).emit(
         "getUsers",
         users

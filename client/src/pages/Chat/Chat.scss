@@ -29,13 +29,19 @@
       font-size: 0.8rem;
     }
   }
-
+ 
   form {
-    padding: 1rem;
+    padding:.87rem 1rem;
     display: block;
-
+    background:red;
+    background: #252329;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.25);
+    .writing{
+     
+      font-size: .8rem;
+    }
     .group {
-      background: #3c393f;
+      background: #120f13;
       border-radius: 12px;
       display: flex;
       justify-content: space-between;
