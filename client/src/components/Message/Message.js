@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import TimeAgo from "timeago-react";
+import { useChatContext } from "../../contexts/ChatContextProvider";
 import { useUserContext } from "../../contexts/UserContextProvider";
 import Member from "../Member/Member";
 import "./Message.scss";
@@ -8,8 +9,16 @@ export default function Message(props) {
   const [showForm, setShowForm] = useState(false);
   const [showDeletBox, setShowDeletBox] = useState(false);
   const { user } = useUserContext();
+  const { socket, channel } = useChatContext();
   const [message, setMessage] = useState(props.message);
-
+  useEffect(() => {
+    socket.current.on("messageEdited", (message) => {
+      console.log(message);
+      setMessage(message);
+    });
+    return () => {};
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [socket.current]);
   const editMessage = async (event) => {
     event.preventDefault();
     const newText = event.currentTarget.text.value;
@@ -27,6 +36,10 @@ export default function Message(props) {
       }),
       headers: { "Content-Type": "application/json" },
     });
+    socket.current.emit("messageEdited", {
+      roomId: channel._id,
+      message: newMessge,
+    });
     setMessage(newMessge);
     setShowForm(false);
   };
@@ -40,6 +53,10 @@ export default function Message(props) {
     };
     fetch("/api/message/deleteMessage/" + message._id, {
       method: "PUT",
+    });
+    socket.current.emit("messageEdited", {
+      roomId: channel._id,
+      message: newMessge,
     });
     setMessage(newMessge);
     setShowDeletBox(false);

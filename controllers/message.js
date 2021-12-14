@@ -6,7 +6,6 @@ const handleChannelErrors = require("../utils/handleChannelErrors");
 const editMessage = async (req, res) => {
   const id = req.body.id;
   const text = req.body.text;
-  console.log(id, text);
   try {
     const message = await Message.findById(id);
     if (!message) {

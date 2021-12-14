@@ -11,11 +11,7 @@ const signup = async (req, res) => {
   const { email, password } = req.body;
   try {
     const user = User({ email, password });
-    const welcome = await Channel.findOne({ name: "Welcome" });
-    welcome.members.push(user._id);
-    user.channels.push(welcome._id);
     await user.save();
-    await welcome.save();
     const token = createToken(user._id);
     res.cookie("token", token, {
       httpOnly: true,

@@ -16,12 +16,18 @@ const getUser = (req, res) => {
 
 const updateProfile = async (req, res) => {
   const user = req.user;
-  user.name = req.body.name;
-  user.bio = req.body.bio;
-  user.phone = req.body.phone;
-  try {
-    const newUser = await user.save();
+  user.name = req.body.name.trim();
+  user.bio = req.body.bio.trim();
+  user.phone = req.body.phone.trim();
 
+  try {
+    const welcome = await Channel.findOne({ name: "Welcome" });
+    if (user.name) {
+      welcome.members.push(user._id);
+      user.channels.push(welcome._id);
+    }
+    const newUser = await user.save();
+    await welcome.save();
     res.status(200).json(newUser);
   } catch (error) {
     console.log(error);
