@@ -12,16 +12,20 @@ export default function Message(props) {
   const { socket, channel } = useChatContext();
   const [message, setMessage] = useState(props.message);
   useEffect(() => {
-    socket.current.on("messageEdited", (message) => {
-      console.log(message);
-      setMessage(message);
+    if (!socket.current) return;
+
+    socket.current.on("messageEdited", (editedMessage) => {
+      if (editedMessage._id === message._id) {
+        setMessage(editedMessage);
+      }
     });
     return () => {};
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [socket.current]);
   const editMessage = async (event) => {
     event.preventDefault();
-    const newText = event.currentTarget.text.value;
+    const newText = event.currentTarget.text.value.trim();
+    if (!newText) return;
     const newMessge = {
       ...message,
       text: newText,
@@ -38,7 +42,7 @@ export default function Message(props) {
     });
     socket.current.emit("messageEdited", {
       roomId: channel._id,
-      message: newMessge,
+      editedMessage: newMessge,
     });
     setMessage(newMessge);
     setShowForm(false);
@@ -56,7 +60,7 @@ export default function Message(props) {
     });
     socket.current.emit("messageEdited", {
       roomId: channel._id,
-      message: newMessge,
+      editedMessage: newMessge,
     });
     setMessage(newMessge);
     setShowDeletBox(false);

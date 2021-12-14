@@ -63,8 +63,8 @@ const initSocket = (io) => {
       socket.broadcast.to(roomId).emit("userWriting", userName);
     });
 
-    socket.on("messageEdited", ({ roomId, message }) => {
-      io.to(roomId).emit("messageEdited", message);
+    socket.on("messageEdited", ({ roomId, editedMessage }) => {
+      io.to(roomId).emit("messageEdited", editedMessage);
     });
     socket.on("disconnect", () => {
       io.to(currentRoom).emit(
