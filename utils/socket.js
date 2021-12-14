@@ -1,3 +1,5 @@
+const User = require("../models/user");
+const jwt = require("jsonwebtoken");
 const initSocket = (io) => {
   let users = [];
 
@@ -9,7 +11,26 @@ const initSocket = (io) => {
   const removeUser = (socketId) => {
     users = users.filter((user) => user.socketId !== socketId);
   };
-
+  io.use((socket, next) => {
+    const token = socket.handshake.headers.cookie.split("=")[1];
+    if (token) {
+      jwt.verify(token, process.env.SECRET, (err, decodedToken) => {
+        if (err) {
+          next(new Error("invalid"));
+        } else {
+          User.findById(decodedToken.id, function (err, user) {
+            if (err) {
+              next(new Error("invalid"));
+            } else {
+              next();
+            }
+          });
+        }
+      });
+    } else {
+      next(new Error("invalid"));
+    }
+  });
   io.on("connection", (socket) => {
     let currentRoom;
 
