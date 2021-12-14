@@ -45,6 +45,7 @@ button {
   &.primary {
     background: #2f80ed;
     border-color: #2f80ed;
+    color: white;
   }
   &.danger {
     background-color: rgb(121, 11, 33);
@@ -60,7 +61,12 @@ p {
   color: #bdbdbd;
   font-size: 0.9rem;
 }
-.error {
+
+.primary {
+  color: #2f80ed;
+}
+.error,
+.danger {
   color: crimson;
 }
 form {

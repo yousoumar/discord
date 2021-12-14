@@ -13,27 +13,12 @@
     padding: 0 1rem 1rem;
     overflow-y: auto;
   }
-  .message {
-    border: 1px solid rgba(0, 0, 0, 0.25);
-    padding: 1rem;
-    border-radius: 1rem;
-    margin-top: 1rem;
-    display: grid;
 
-    .text {
-      margin-top: 0.5rem;
-    }
-
-    .date {
-      margin-left: auto;
-      font-size: 0.8rem;
-    }
-  }
   .writing {
     font-size: 0.8rem;
     padding: 0 1rem;
   }
-  form {
+  > form {
     padding: 0.87rem 1rem;
     display: block;
     background: red;

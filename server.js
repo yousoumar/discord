@@ -13,6 +13,7 @@ const cookieParser = require("cookie-parser");
 const authRouter = require("./routes/auth");
 const userRouter = require("./routes/user");
 const channelRouter = require("./routes/channel");
+const messageRouter = require("./routes/message");
 const createWelcomeChannel = require("./middlewares/createWelcomeChannel");
 const initSocket = require("./utils/socket");
 
@@ -39,9 +40,10 @@ app.use(createWelcomeChannel);
 
 /* ---------------------------- routes ---------------------------------- */
 
-app.use("/api/auth/", authRouter);
-app.use("/api/user/", userRouter);
-app.use("/api/channel/", channelRouter);
+app.use("/api/auth", authRouter);
+app.use("/api/user", userRouter);
+app.use("/api/channel", channelRouter);
+app.use("/api/message", messageRouter);
 app.get("/*", (req, res) => {
   res.sendFile(path.join(__dirname, "/client/build/index.html"));
 });

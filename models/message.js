@@ -11,6 +11,14 @@ const schema = Schema(
       type: String,
       required: [true, "A message should be in a channel"],
     },
+    isEdited: {
+      type: Boolean,
+      default: false,
+    },
+    isDeleted: {
+      type: Boolean,
+      default: false,
+    },
   },
   { timestamps: true }
 );
