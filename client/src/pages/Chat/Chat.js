@@ -73,11 +73,10 @@ export default function Chat() {
           </div>
         ))}
       </div>
-
+      {writingUserName && (
+        <p className="writing">{writingUserName} is writing...</p>
+      )}
       <form action="" onSubmit={handleSumbit}>
-        {writingUserName && (
-          <p className="writing">{writingUserName} is writing...</p>
-        )}
         <div className="group">
           <input
             type="text"
