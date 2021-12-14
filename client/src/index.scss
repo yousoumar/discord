@@ -27,7 +27,7 @@ main {
 
 a {
   text-decoration: none;
-  color: #2f80ed;
+  color: #5865f2;
 }
 
 button {
@@ -43,8 +43,8 @@ button {
   color: white;
 
   &.primary {
-    background: #2f80ed;
-    border-color: #2f80ed;
+    background: #5865f2;
+    border-color: #5865f2;
     color: white;
   }
   &.danger {
@@ -63,7 +63,7 @@ p {
 }
 
 .primary {
-  color: #2f80ed;
+  color: #5865f2;
 }
 .error,
 .danger {
