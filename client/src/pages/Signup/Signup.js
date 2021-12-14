@@ -44,19 +44,12 @@ export default function Signup() {
       <div className="logo">
         <img src={logo} alt="" />
       </div>
-      <h1>
-        Join thousands of learners <br />
-        from around the world{" "}
-      </h1>
-      <p>
-        Master web development by making real-life <br /> projects. There are
-        multiple paths for you to <br />
-        choose
-      </p>
+      <h1>Join the world, discuss everything.</h1>
+
       <Form
         handleSubmit={handleSubmit}
         error={error}
-        submitMessage="Start coding"
+        submitMessage="Sign up"
         loading={loading}
       />
       <p>

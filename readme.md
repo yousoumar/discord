@@ -1,6 +1,6 @@
-# Chat group
+# Discord
 
-A group chat challenge from `devchallenge.io`, coded with `React`, `Sass`, `Express`, `NodeJs`, `Mongoose`, and `MongoDB`.
+A `Discord` clone, coded with `React`, `Sass`, `Express`, `NodeJs`, `Mongoose`, and `MongoDB`.
 
 # Features
 

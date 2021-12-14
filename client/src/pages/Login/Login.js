@@ -54,7 +54,7 @@ export default function Login() {
       <div className="logo">
         <img src={logo} alt="" />
       </div>
-      <h1>Login</h1>
+      <h1>All your freinds behind this form.</h1>
       <Form
         handleSubmit={handleSubmit}
         error={error}
