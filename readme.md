@@ -1,6 +1,6 @@
 # Discord
 
-A `Discord` clone, coded with `React`, `Sass`, `Express`, `NodeJs`, `Mongoose`, and `MongoDB`.
+A `Discord` clone, carried out with `React`, `Express`, `NodeJs`, `Socket.io`, `Mongoose`, `MongoDB`, and styled with `Sass`.
 
 # Features
 
@@ -16,8 +16,10 @@ A `Discord` clone, coded with `React`, `Sass`, `Express`, `NodeJs`, `Mongoose`, 
 - I can create a new channel with a name and a description
 - I can select a channel of my choice
 - When I can select a channel, I am added as a member of the channel
-- I can see a member of the channel
-- I can send a message
+- I can see members of the channel
+- I can see online members of the channel
+- I can send, edit, delete and receive messages instantly
+- I see when someone is writing
 - I can see other people's messages
 - I can search for a group
 
