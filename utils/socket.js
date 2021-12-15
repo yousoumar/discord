@@ -67,13 +67,13 @@ const initSocket = (io) => {
       io.to(roomId).emit("messageEdited", editedMessage);
     });
     socket.on("disconnect", () => {
+      removeUser(socket.id);
       io.to(currentRoom).emit(
         "getUsers",
         users
           .filter((user) => user.roomId === currentRoom)
           .map((user) => user.user)
       );
-      removeUser(socket.id);
     });
   });
 };
