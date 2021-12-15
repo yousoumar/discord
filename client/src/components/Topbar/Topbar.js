@@ -75,8 +75,8 @@ export default function Topbar() {
             />
 
             <div className="btns">
-              <button className="button">
-                {!loading ? "Create channel" : "........................."}
+              <button className="button primary">
+                {!loading ? "Create" : "........................."}
               </button>
               {!loading && (
                 <button

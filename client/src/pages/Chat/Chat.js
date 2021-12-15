@@ -34,6 +34,7 @@ export default function Chat() {
     e.preventDefault();
     const message = e.currentTarget.message.value;
     e.currentTarget.message.value = "";
+    e.currentTarget.message.blur();
 
     try {
       const res = await fetch(
@@ -65,9 +66,7 @@ export default function Chat() {
           <Message message={m} key={m._id} />
         ))}
       </div>
-      {writingUserName && (
-        <p className="writing">{writingUserName} is writing...</p>
-      )}
+
       <form action="" onSubmit={handleSumbit}>
         <div className="group">
           <input
@@ -76,7 +75,7 @@ export default function Chat() {
             placeholder="Type a message here"
             onFocus={() => {
               socket.current.emit("userWriting", {
-                userName: user.name,
+                userName: user.name.split(" ")[0],
                 roomId: channel._id,
               });
             }}
@@ -89,6 +88,9 @@ export default function Chat() {
           />
           <button type="submit">Send</button>
         </div>
+        {writingUserName && (
+          <p className="writing">{writingUserName} is writing...</p>
+        )}
       </form>
     </div>
   );
