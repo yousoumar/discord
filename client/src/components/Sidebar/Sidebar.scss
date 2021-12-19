@@ -18,12 +18,17 @@
     padding: 1rem;
     height: 59px;
     display: flex;
+    justify-content: space-between;
 
     button {
-      display: flex;
-      align-items: center;
       gap: 0.5rem;
       font-weight: bold;
+      align-items: center;
+
+      font-size: 1rem;
+      &.all {
+        padding: 0;
+      }
       img {
         width: 0.5rem;
         margin-top: 0.2rem;
@@ -55,9 +60,14 @@
   }
 
   @media all and (min-width: 800px) {
-    &,
-    &.show {
+    & {
       width: 324px;
+      &.show {
+        width: 324px;
+      }
+      .menu {
+        display: none;
+      }
     }
   }
 }

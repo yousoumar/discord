@@ -12,6 +12,7 @@ export default function Sidebar() {
     channelMembers,
     setChannelMembers,
     showSidebar,
+    setShowSidebar,
     showChannels,
     setShowChannels,
     channelOnlineMembers,
@@ -32,13 +33,24 @@ export default function Sidebar() {
     <nav className={showSidebar ? "sidebar show" : "sidebar"}>
       <div className="top">
         {!showChannels ? (
-          <button onClick={() => setShowChannels(!showChannels)}>
+          <button
+            className="button all"
+            onClick={() => setShowChannels(!showChannels)}
+          >
             <img src="/icons/chevron-left.svg" alt="" />{" "}
             <span>All channels</span>
           </button>
         ) : (
           <h1>Channels</h1>
         )}
+        <button
+          onClick={() => {
+            setShowSidebar(!showSidebar);
+          }}
+          className="button dark menu"
+        >
+          Close
+        </button>
       </div>
       {showChannels ? (
         <div className="body">

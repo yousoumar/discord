@@ -14,11 +14,11 @@
       display: inline-block;
       &.logo {
         img {
-          width: 8rem;
+          width: 6rem;
         }
       }
       &.button {
-        margin-left: 2rem;
+        margin-left: 1rem;
       }
       &.login {
         color: rgb(27, 27, 112);
@@ -34,7 +34,6 @@
   }
 
   main {
-    margin-top: 5rem;
     padding: 1rem;
   }
 
@@ -67,15 +66,12 @@
       font-weight: bold;
       text-align: right;
     }
-
-    .left p {
-      text-transform: uppercase;
-    }
   }
 
   form {
     .button {
       width: max-content;
+      display: inline-block;
     }
   }
 
@@ -88,6 +84,7 @@
         max-width: 1200px;
         margin-left: auto;
         margin-right: auto;
+        margin-top: 5rem;
       }
     }
   }

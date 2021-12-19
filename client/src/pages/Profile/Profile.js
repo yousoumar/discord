@@ -1,14 +1,18 @@
+import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+
 import EditInfo from "./components/EditInfo";
 import Password from "./components/Password";
-import { Link } from "react-router-dom";
 import logo from "../../assets/logo.svg";
+import DeleteProfile from "./components/DeleteProfile";
 
 import "./Profile.scss";
-import DeleteProfile from "./components/DeleteProfile";
-import { useState } from "react";
 
 export default function Profile({ user, setUser, history }) {
   const [error, setError] = useState(false);
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   return (
     <div className="profile">
       <header className="header">

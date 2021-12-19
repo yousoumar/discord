@@ -51,6 +51,7 @@ export default function Topbar() {
           onClick={() => {
             setShowForm(true);
           }}
+          className="button dark"
         >
           Create a channel
         </button>
@@ -58,9 +59,9 @@ export default function Topbar() {
           onClick={() => {
             setShowSidebar(!showSidebar);
           }}
-          className="menu"
+          className="button dark menu"
         >
-          {showSidebar ? "Close" : "Menu"}
+          Menu
         </button>
       </div>
       {showForm && (

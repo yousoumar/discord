@@ -1,9 +1,5 @@
 .chat {
-  height: 100vh;
   width: 100%;
-  display: grid;
-  grid-template-rows: auto 1fr auto;
-  padding: 5rem 0;
 
   button {
     outline: none;
@@ -11,9 +7,11 @@
     cursor: pointer;
   }
   .messages {
-    padding: 0 1rem 1rem;
     margin-top: -1rem;
     overflow-y: auto;
+    height: 100vh;
+    padding: 5rem 1rem 6rem 1rem;
+    overflow: auto;
   }
 
   > form {
@@ -41,11 +39,7 @@
       padding: 0;
     }
     button {
-      background-color: transparent;
-      background: #2f80ed;
-      border-radius: 8px;
       width: max-content;
-      padding: 0.5rem 0.7rem;
       margin: 0;
     }
     .writing {
@@ -56,6 +50,13 @@
   @media all and (min-width: 800px) {
     & {
       margin-left: 324px;
+
+      form {
+        width: calc(100% - 324px);
+      }
+      .menu {
+        display: none;
+      }
     }
   }
 }

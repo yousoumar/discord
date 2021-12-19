@@ -12,14 +12,19 @@ export default function Chat() {
   const { channel, channelMessages, socket } = useChatContext();
   const { user } = useUserContext();
   const chatBoxRef = useRef();
+  const scroller = useRef();
 
   useEffect(() => {
-    chatBoxRef.current.scrollTop = chatBoxRef.current.scrollHeight;
+    scroller.current.scrollIntoView();
   }, [channelMessages]);
 
   useEffect(() => {
     setWritingUserName("");
   }, [channel]);
+  useEffect(() => {
+    document.body.classList.add("in-the-chat");
+    return () => document.body.classList.remove("in-the-chat");
+  }, []);
 
   useEffect(() => {
     if (!socket.current) return;
@@ -65,6 +70,7 @@ export default function Chat() {
         {channelMessages.map((m) => (
           <Message message={m} key={m._id} />
         ))}
+        <div ref={scroller}></div>
       </div>
 
       <form action="" onSubmit={handleSumbit}>
@@ -86,7 +92,9 @@ export default function Chat() {
               });
             }}
           />
-          <button type="submit">Send</button>
+          <button className="button primary plain" type="submit">
+            Send
+          </button>
         </div>
         {writingUserName && (
           <p className="writing">{writingUserName} is writing...</p>
