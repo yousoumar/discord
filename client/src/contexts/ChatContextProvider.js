@@ -72,7 +72,7 @@ export default function ChatContextProvider({ children }) {
     socket.current.on("getMessage", (message) => {
       setChannelMessages([...channelMessages, message]);
     });
-  
+
     return () => {
       socket.current.emit("removeUser", {
         userId: user._id,
@@ -87,7 +87,6 @@ export default function ChatContextProvider({ children }) {
     channelMembers,
     setChannelMembers,
     channelMessages,
-
   ]);
 
   return (

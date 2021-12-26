@@ -37,7 +37,8 @@ export default function Chat() {
 
   const handleSumbit = async (e) => {
     e.preventDefault();
-    const message = e.currentTarget.message.value;
+    const message = e.currentTarget.message.value.trim();
+    if (!message) return;
     e.currentTarget.message.value = "";
     e.currentTarget.message.blur();
 

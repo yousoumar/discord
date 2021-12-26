@@ -11,6 +11,7 @@ export default function Message(props) {
   const { user } = useUserContext();
   const { socket, channel } = useChatContext();
   const [message, setMessage] = useState(props.message);
+  console.log(message._id);
   useEffect(() => {
     if (!socket.current) return;
 
