@@ -22,12 +22,12 @@ const updateProfile = async (req, res) => {
 
   try {
     const welcome = await Channel.findOne({ name: "Welcome" });
-    if (user.name) {
+    if (user.name && !welcome.members.includes(user._id)) {
       welcome.members.push(user._id);
       user.channels.push(welcome._id);
+      await welcome.save();
     }
     const newUser = await user.save();
-    await welcome.save();
     res.status(200).json(newUser);
   } catch (error) {
     console.log(error);
